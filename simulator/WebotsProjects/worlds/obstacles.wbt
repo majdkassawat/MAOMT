@@ -1,0 +1,92 @@
+#VRML_SIM R2018b utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.9196746511913304 -0.3506217271907314 -0.17681329242422159 1.219873458898846
+  position -0.9972536919377728 3.244012525460352 1.1016867161931763
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+E-puck {
+  controller "e-puck_go_forward"
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.33 -1 -0.5
+  castShadows TRUE
+}
+Floor {
+  size 1 1
+}
+DEF Wall1 Solid {
+  translation 0 0 0.5
+  children [
+    DEF wall Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry Box {
+        size 1 0.1 0.05
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE wall
+  physics Physics {
+  }
+}
+DEF Ball Solid {
+  translation 0 0.39000000000000024 -0.2
+  children [
+    DEF BALL_GEOMETRY Shape {
+      appearance Appearance {
+        material Material {
+        }
+      }
+      geometry Sphere {
+        radius 0.05
+        subdivision 2
+      }
+    }
+  ]
+  boundingObject USE BALL_GEOMETRY
+  physics Physics {
+  }
+}
+DEF Wall2 Solid {
+  translation 0.5 0 0
+  rotation 0 1 0 1.57
+  children [
+    USE wall
+  ]
+  name "solid(2)"
+  boundingObject USE wall
+  physics Physics {
+  }
+}
+DEF Wall3 Solid {
+  translation 0 0 -0.5
+  children [
+    USE wall
+  ]
+  name "solid(3)"
+  boundingObject USE wall
+  physics Physics {
+  }
+}
+DEF Wall4 Solid {
+  translation -0.5 0 0
+  rotation 0 1 0 1.57
+  children [
+    USE wall
+  ]
+  name "solid(4)"
+  boundingObject USE wall
+  physics Physics {
+  }
+}

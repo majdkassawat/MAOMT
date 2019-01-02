@@ -1,0 +1,23 @@
+#VRML_SIM R2018b utf8
+WorldInfo {
+  basicTimeStep 16
+}
+Viewpoint {
+  orientation -0.98574525311118 -0.1592198522228821 -0.05436298949560723 1.1692672348386735
+  position -0.2749462700458722 3.5115255374447245 1.2572500901828432
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+RectangleArena {
+}
+E-puck {
+  controller "e-puck_go_forward"
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction -0.33 -1 -0.5
+  castShadows TRUE
+}

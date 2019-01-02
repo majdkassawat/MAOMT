@@ -1,0 +1,166 @@
+#VRML_SIM R2018b utf8
+WorldInfo {
+  basicTimeStep 8
+  contactProperties [
+    ContactProperties {
+      material2 "dumbbell"
+      coulombFriction [
+        0
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.7123302985330622 0.6934093960027357 0.10848481611230204 4.9167331320696475
+  position -1.219547339488842 1.2621779323562479 0.6898209059518736
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+E-puck {
+  controller "e-puck_avoid_collision"
+}
+DirectionalLight {
+  ambientIntensity 0.5
+  direction 1 -2 1
+  castShadows TRUE
+}
+Floor {
+  size 1 1
+}
+DEF Dumple Solid {
+  translation 0 0.25 0.25
+  rotation 1 0 0 1.57
+  children [
+    DEF GO Group {
+      children [
+        Transform {
+          translation 0 0.05 0
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Sphere {
+                radius 0.03
+                subdivision 2
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 -0.05 0
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Sphere {
+                radius 0.03
+                subdivision 2
+              }
+            }
+          ]
+        }
+        Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Cylinder {
+            height 0.1
+            radius 0.01
+          }
+        }
+      ]
+    }
+  ]
+  name "dumple"
+  contactMaterial "dumbbell"
+  boundingObject USE GO
+  physics Physics {
+    density -1
+    mass 2
+    centerOfMass [
+      0 0.01 0
+    ]
+  }
+}
+DEF Wall1 Solid {
+  translation 0 0 0.5
+  children [
+    DEF wall Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0.21176470588235294 0.01568627450980392 0.8
+        }
+      }
+      geometry Box {
+        size 1 0.1 0.05
+      }
+    }
+  ]
+  name "solid(1)"
+  boundingObject USE wall
+  physics Physics {
+  }
+}
+DEF Ball Solid {
+  translation 0 0.39000000000000024 -0.2
+  children [
+    DEF BALL_GEOMETRY Shape {
+      appearance Appearance {
+        material Material {
+        }
+        texture ImageTexture {
+          url [
+            "textures/red_brick_wall.jpg"
+          ]
+        }
+      }
+      geometry Sphere {
+        radius 0.05
+        subdivision 2
+      }
+    }
+  ]
+  boundingObject USE BALL_GEOMETRY
+  physics Physics {
+  }
+}
+DEF Wall2 Solid {
+  translation 0.5 0 0
+  rotation 0 1 0 1.57
+  children [
+    USE wall
+  ]
+  name "solid(2)"
+  boundingObject USE wall
+  physics Physics {
+  }
+}
+DEF Wall3 Solid {
+  translation 0 0 -0.5
+  children [
+    USE wall
+  ]
+  name "solid(3)"
+  boundingObject USE wall
+  physics Physics {
+  }
+}
+DEF Wall4 Solid {
+  translation -0.5 0 0
+  rotation 0 1 0 1.57
+  children [
+    USE wall
+  ]
+  name "solid(4)"
+  boundingObject USE wall
+  physics Physics {
+  }
+}

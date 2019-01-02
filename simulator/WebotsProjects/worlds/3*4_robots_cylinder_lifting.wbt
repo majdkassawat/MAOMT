@@ -1,0 +1,6498 @@
+#VRML_SIM V8.4.0 utf8
+WorldInfo {
+  basicTimeStep 16
+  optimalThreadCount 8
+  contactProperties [
+    ContactProperties {
+      material2 "Wheel"
+      coulombFriction [
+        15
+      ]
+    }
+    ContactProperties {
+      material2 "Traction rubber"
+      coulombFriction [
+        40
+      ]
+    }
+  ]
+}
+Viewpoint {
+  orientation 0.0956941 -0.634336 -0.767111 3.35977
+  position -0.918345 4.82389 1.82357
+  follow "solid"
+}
+PointLight {
+  location 0 0.7 2
+  castShadows TRUE
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+DirectionalLight {
+  ambientIntensity 1
+  direction 0 -1 0
+  castShadows TRUE
+}
+Floor {
+  size 4 5
+}
+DEF TELbot Robot {
+  translation -0.128064 0.058 1.13642
+  rotation 0 1 0 5.4956
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation 0.268223 0.058 1.65408
+  rotation 0 1 0 3.13941
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation -0.122253 0.058 -0.969613
+  rotation 0 -1 0 4.45277
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation 0.138793 0.058 -0.234495
+  rotation 0 1 0 4.972
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation 0.215572 0.058 0.38892
+  rotation 0 1 0 2.87761
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation -0.324218 0.058 0.316429
+  rotation 0 -1 0 5.23817
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation 0.29049 0.058 -1.27726
+  rotation 0 1 0 3.663
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation -1.66165 0.078 1.05449
+  rotation 0 1 0 6.0192
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation -1.70658 0.058 1.68089
+  rotation 0 -1 0 4.97638
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation -0.983354 0.058 1.68263
+  rotation 0 -1 0 3.14378
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation -1.14453 0.058 1.09425
+  rotation 0 -1 0 1.83478
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation -0.179749 0.058 -1.57403
+  rotation 0 1 0 5.7574
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation -0.454981 0.058 -0.0866371
+  rotation 0 1 0 6.281
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation -0.400473 0.058 -1.23961
+  rotation 0 -1 0 5.76177
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF TELbot Robot {
+  translation -0.347845 0.058 1.689
+  rotation 0 -1 0 5.23817
+  children [
+    LightSensor {
+      translation -0.0653552 0.05 -0.0381577
+      rotation 0.130446 0.990839 0.034953 2.62258
+      children [
+        DEF LightSensorShape Shape {
+          appearance Appearance {
+            material Material {
+            }
+          }
+          geometry Box {
+            size 0.01 0.01 0.01
+          }
+        }
+      ]
+      name "LightSensor1"
+      boundingObject USE LightSensorShape
+      physics Physics {
+      }
+      occlusion TRUE
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor1"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.0647883 -0.035 0.04
+      rotation -0.245244 -0.319608 0.915263 1.3954
+      children [
+        DEF DistanceSensor Transform {
+          translation 0 0 -0.03
+          children [
+            Shape {
+              appearance Appearance {
+              }
+              geometry Box {
+                size 0.01 0.015 0.03
+              }
+            }
+          ]
+        }
+      ]
+      name "DistanceSensor2"
+      boundingObject USE DistanceSensor
+      physics Physics {
+      }
+      type "infra-red"
+    }
+    DEF TractionWheel1 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor1 Transform {
+          translation 0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor1"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel1 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel1
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor1"
+      boundingObject DEF ForceSensor1 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF TractionWheel2 TouchSensor {
+      rotation 0 1 0 1.047
+      children [
+        DEF ForceSensor2 Transform {
+          translation -0.03288 0.0015 0.0394
+          children [
+            Transform {
+              translation 0 0.03629 0.035
+              children [
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                  }
+                  device [
+                    RotationalMotor {
+                      name "TractionMotor2"
+                      maxTorque 0.5
+                    }
+                  ]
+                  endPoint Solid {
+                    children [
+                      DEF TractionWheel2 Transform {
+                        rotation 0 0 1 1.57
+                        children [
+                          Shape {
+                            appearance Appearance {
+                              material Material {
+                                diffuseColor 0 1 0.1
+                              }
+                              texture ImageTexture {
+                                url [
+                                  "textures/chessboard.jpg"
+                                ]
+                              }
+                            }
+                            geometry Sphere {
+                              radius 0.0152
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    contactMaterial "Traction rubber"
+                    boundingObject USE TractionWheel2
+                    physics Physics {
+                      density -1
+                      mass 0.04
+                    }
+                  }
+                }
+              ]
+            }
+            DEF ForceSensor Shape {
+              appearance Appearance {
+                material Material {
+                }
+              }
+              geometry Box {
+                size 0.0127 0.08 0.0127
+              }
+            }
+          ]
+        }
+      ]
+      name "TouchSensor2"
+      boundingObject DEF ForceSensor2 Transform {
+        translation 0 0.0015 0.0394
+        children [
+          DEF ForceSensor Shape {
+            appearance Appearance {
+              material Material {
+              }
+            }
+            geometry Box {
+              size 0.0127 0.08 0.0127
+            }
+          }
+        ]
+      }
+      physics Physics {
+        density -1
+        mass 0.04
+      }
+      type "force"
+    }
+    DEF Wheel3 Transform {
+      rotation 0 1 0 -4.1867
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor3"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(2)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel1 Transform {
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor1"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(3)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF Wheel2 Transform {
+      rotation 0 1 0 -2.093
+      children [
+        Transform {
+          translation 0 -0.0475 0.055
+          children [
+            Hinge2Joint {
+              jointParameters HingeJointParameters {
+                axis 0 0 1
+              }
+              jointParameters2 JointParameters {
+                axis 1 0 0
+              }
+              device [
+                RotationalMotor {
+                  name "WheelMotor2"
+                  maxTorque 1.5
+                }
+              ]
+              endPoint Solid {
+                children [
+                  Shape {
+                    appearance Appearance {
+                      material Material {
+                      }
+                    }
+                    geometry DEF OmniWheel Sphere {
+                      radius 0.024
+                    }
+                  }
+                ]
+                name "solid(1)"
+                boundingObject USE OmniWheel
+                physics Physics {
+                  density -1
+                  mass 0.04
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF BodyGroup Group {
+      children [
+        Transform {
+          rotation 0 1 0 2.093
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          rotation 0 1 0 1.046
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+        Transform {
+          children [
+            Shape {
+              appearance Appearance {
+                material Material {
+                  diffuseColor 0.1 0.1 0.1
+                }
+              }
+              geometry Box {
+                size 0.095 0.095 0.16454
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  name "TELbot_1"
+  boundingObject USE BodyGroup
+  physics Physics {
+    density -1
+    mass 0.7
+  }
+  controller "TELbotController"
+}
+DEF Target Solid {
+  translation -0.0200047 0.17 -1.26
+  rotation 0 1 0 1.5708
+  children [
+    DEF object Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/plastic.jpg"
+          ]
+        }
+      }
+      geometry Cylinder {
+        height 0.25
+        radius 0.2
+        subdivision 500
+      }
+    }
+  ]
+  boundingObject USE object
+  physics Physics {
+    density -1
+    mass 1.5
+  }
+}
+DEF Target Solid {
+  translation -0.0199996 0.17 0.13
+  rotation 0 1 0 1.5708
+  children [
+    DEF object Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/plastic.jpg"
+          ]
+        }
+      }
+      geometry Cylinder {
+        height 0.25
+        radius 0.2
+        subdivision 500
+      }
+    }
+  ]
+  boundingObject USE object
+  physics Physics {
+    density -1
+    mass 1.5
+  }
+}
+DEF Target Solid {
+  translation -0.0199949 0.17 1.42
+  rotation 0 1 0 1.5708
+  children [
+    DEF object Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/plastic.jpg"
+          ]
+        }
+      }
+      geometry Cylinder {
+        height 0.25
+        radius 0.2
+        subdivision 500
+      }
+    }
+  ]
+  boundingObject USE object
+  physics Physics {
+    density -1
+    mass 1.5
+  }
+}
+DEF Target Solid {
+  translation -1.40999 0.17 1.42001
+  rotation 0 1 0 1.5708
+  children [
+    DEF object Shape {
+      appearance Appearance {
+        material Material {
+          diffuseColor 0 0 1
+        }
+        texture ImageTexture {
+          url [
+            "textures/plastic.jpg"
+          ]
+        }
+      }
+      geometry Cylinder {
+        height 0.25
+        radius 0.2
+        subdivision 500
+      }
+    }
+  ]
+  boundingObject USE object
+  physics Physics {
+    density -1
+    mass 1.5
+  }
+}

@@ -1,0 +1,18 @@
+<launch>
+
+	<param name="synchronize" value="true" />
+	<param name="clock" value="true" />
+	<param name="use-sim-time" value="true" />
+
+	<node pkg="webots_ros" type="TELbot_controller" name="TELbot1" args="TELbot_1_20113_majd_N551JQ" output="screen"/>
+	<node pkg="webots_ros" type="TELbot_controller" name="TELbot2" args="TELbot_2_20113_majd_N551JQ" output="screen"/>
+	<node pkg="webots_ros" type="TELbot_controller" name="TELbot3" args="TELbot_3_20113_majd_N551JQ" output="screen"/>
+
+	<node pkg="rqt_plot" type="rqt_plot" name="TELbotPlot_1" args="/TELbot_1_20113_majd_N551JQ/TouchSensor1/value /TELbot_1_20113_majd_N551JQ/TouchSensor2/value" output="screen"/>
+	<node pkg="rqt_plot" type="rqt_plot" name="TELbotPlot_2" args="/TELbot_2_20113_majd_N551JQ/TouchSensor1/value /TELbot_2_20113_majd_N551JQ/TouchSensor2/value" output="screen"/>
+	<node pkg="rqt_plot" type="rqt_plot" name="TELbotPlot_3" args="/TELbot_3_20113_majd_N551JQ/TouchSensor1/value /TELbot_3_20113_majd_N551JQ/TouchSensor2/value" output="screen"/>
+
+</launch>
+
+
+

@@ -1,0 +1,7 @@
+#VRML_SIM R2018b utf8
+WorldInfo {
+  info [
+  ]
+}
+Viewpoint {
+}
