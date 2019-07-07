@@ -63,14 +63,43 @@ force_sensor_left_pub = rospy.Publisher('/force_sensor_left', Int64, queue_size=
 
 force_sensor_left_msg = Int64()
 
-r = rospy.Rate(8)
-while not rospy.is_shutdown():
+# r = rospy.Rate(8)
+# while not rospy.is_shutdown():
 
-    val_left = hx_left.get_weight(1)
+#     val_left = hx_left.get_weight(1)
 
-    force_sensor_left_msg.data=val_left
+#     force_sensor_left_msg.data=val_left
 
-    force_sensor_left_pub.publish(force_sensor_left_msg)
-    r.sleep()
+#     force_sensor_left_pub.publish(force_sensor_left_msg)
+#     r.sleep()
 
 
+
+
+while True:
+    try:
+        # These three lines are usefull to debug wether to use MSB or LSB in the reading formats
+        # for the first parameter of "hx.set_reading_format("LSB", "MSB")".
+        # Comment the two lines "val = hx.get_weight(5)" and "print val" and uncomment these three lines to see what it prints.
+        
+        # np_arr8_string = hx.get_np_arr8_string()
+        # binary_string = hx.get_binary_string()
+        # print binary_string + " " + np_arr8_string
+        
+        # Prints the weight. Comment if you're debbuging the MSB and LSB issue.
+        # val_right = hx_right.get_weight(1)
+        val_left = hx_left.get_weight(1)
+        print val_right
+
+        # To get weight from both channels (if you have load cells hooked up 
+        # to both channel A and B), do something like this
+        #val_A = hx.get_weight_A(1)
+        #val_B = hx.get_weight_B(1)
+        #print "A: %s  B: %s" % ( val_A, val_B )
+
+        #hx.power_down()
+        #hx.power_up()
+        #time.sleep(0.1)
+
+    except (KeyboardInterrupt, SystemExit):
+        cleanAndExit()
