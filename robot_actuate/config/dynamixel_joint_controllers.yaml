@@ -1,0 +1,65 @@
+wheel1_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_torque_controller
+        type: JointTorqueController
+    joint_name: pan_joint
+    joint_speed: 0
+    motor:
+        id: 1
+        init: 0
+        min: 0
+        max: 4095
+
+wheel2_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_torque_controller
+        type: JointTorqueController
+    joint_name: pan_joint
+    joint_speed: 0
+    motor:
+        id: 2
+        init: 0
+        min: 0
+        max: 4095
+
+wheel3_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_torque_controller
+        type: JointTorqueController
+    joint_name: pan_joint
+    joint_speed: 0
+    motor:
+        id: 3
+        init: 0
+        min: 0
+        max: 4095
+
+traction_wheel_right_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_torque_controller
+        type: JointTorqueController
+    joint_name: pan_joint
+    joint_speed: 0
+    motor:
+        id: 4
+        init: 0
+        min: 0
+        max: 4095
+
+
+traction_wheel_left_controller:
+    controller:
+        package: dynamixel_controllers
+        module: joint_torque_controller
+        type: JointTorqueController
+    joint_name: pan_joint
+    joint_speed: 0
+    motor:
+        id: 5
+        init: 0
+        min: 0
+        max: 4095
