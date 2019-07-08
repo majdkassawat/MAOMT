@@ -1,0 +1,8 @@
+<!-- -*- mode: XML -*- -->
+
+<launch>
+
+    <node name="force_sensors_driver_left" pkg="force_sensors_driver" type="force_sensor_interface_left.py" />
+    <node name="force_sensors_driver_right" pkg="force_sensors_driver" type="force_sensor_interface_right.py" />
+
+</launch>
