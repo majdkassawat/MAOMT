@@ -5,8 +5,8 @@
 
 
     <node pkg="aruco_ros" type="marker_publisher" name="aruco_marker_publisher" output="screen">
-        <remap from="/camera_info" to="/camera/rgb/camera_info" />
-        <remap from="/image" to="/camera/rgb/image_raw" />
+        <remap from="/camera_info" to="/usb_cam/camera_info" />
+        <remap from="/image" to="/usb_cam/image_raw" />
         <param name="image_is_rectified" value="False"/>
         <param name="marker_size"        value="$(arg markerSize)"/>
         <param name="reference_frame"    value="$(arg ref_frame)"/>   <!-- frame in which the marker pose will be refered -->
