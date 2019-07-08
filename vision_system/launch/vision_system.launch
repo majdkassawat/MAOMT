@@ -1,7 +1,0 @@
-<launch>
-	
-	
-	<include file="$(find vision_system)/launch/usb_cam.launch" />
-	<include file="$(find vision_system)/launch/aruco.launch" />
-
-</launch>

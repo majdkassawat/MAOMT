@@ -15,7 +15,7 @@
         </rosparam>
     </node>
     <!-- Load controller configuration to parameter server -->
-    <rosparam file="$(find robot_actuate)/config/dynamixel_joint_controllers.yaml" command="load"/>
+    <rosparam file="$(find robot)/config/dynamixel_joint_controllers.yaml" command="load"/>
     <!-- start specified joint controllers -->
     <node name="dynamixel_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
           args="--manager=dxl_manager
@@ -23,6 +23,6 @@
                 --type=simple
                 wheel1_controller wheel2_controller wheel3_controller traction_wheel_left_controller traction_wheel_right_controller"
           output="screen"/>
-    <node name="robot_actuate" pkg="robot_actuate" type="robot_actuate.py" />
+    <node name="robot_actuate" pkg="robot" type="robot_actuate.py" />
 
 </launch>
