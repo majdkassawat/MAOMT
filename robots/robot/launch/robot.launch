@@ -1,9 +1,9 @@
 <launch>
 	
-	
-	<include file="$(find robot)/launch/vision_system.launch" />
-	<include file="$(find robot)/launch/force_sensors.launch" />
-	<include file="$(find robot)/launch/actuate_system.launch" />
-
+	<group ns=robot1>
+		<include file="$(find robot)/launch/vision_system.launch" />
+		<include file="$(find robot)/launch/force_sensors.launch" />
+		<include file="$(find robot)/launch/actuate_system.launch" />
+	</group>
 
 </launch>

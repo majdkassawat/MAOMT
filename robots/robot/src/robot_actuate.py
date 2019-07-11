@@ -37,15 +37,15 @@ def cmdTractionRightVelCallback(msg):
 
 rospy.init_node('robot_actuate_node', log_level=rospy.DEBUG)
 
-traction_wheel_left_controller_pub = rospy.Publisher('/traction_wheel_left_controller/command', Float64, queue_size=1)
-traction_wheel_right_controller_pub = rospy.Publisher('/traction_wheel_right_controller/command', Float64, queue_size=1)
-wheel1_controller_pub = rospy.Publisher('/wheel1_controller/command', Float64, queue_size=1)
-wheel2_controller_pub = rospy.Publisher('/wheel2_controller/command', Float64, queue_size=1)
-wheel3_controller_pub = rospy.Publisher('/wheel3_controller/command', Float64, queue_size=1)
+traction_wheel_left_controller_pub = rospy.Publisher('traction_wheel_left_controller/command', Float64, queue_size=1)
+traction_wheel_right_controller_pub = rospy.Publisher('traction_wheel_right_controller/command', Float64, queue_size=1)
+wheel1_controller_pub = rospy.Publisher('wheel1_controller/command', Float64, queue_size=1)
+wheel2_controller_pub = rospy.Publisher('wheel2_controller/command', Float64, queue_size=1)
+wheel3_controller_pub = rospy.Publisher('wheel3_controller/command', Float64, queue_size=1)
 
-command_twist_vel_sub = rospy.Subscriber('/cmd_vel', Twist, cmdTwistVelCallback)
-command_traction_wheel_left_vel_sub = rospy.Subscriber('/traction_wheel_left_vel', Float64, cmdTractionLeftVelCallback)
-command_traction_wheel_right_vel_sub = rospy.Subscriber('/traction_wheel_right_vel', Float64, cmdTractionRightVelCallback)
+command_twist_vel_sub = rospy.Subscriber('cmd_vel', Twist, cmdTwistVelCallback)
+command_traction_wheel_left_vel_sub = rospy.Subscriber('traction_wheel_left_vel', Float64, cmdTractionLeftVelCallback)
+command_traction_wheel_right_vel_sub = rospy.Subscriber('traction_wheel_right_vel', Float64, cmdTractionRightVelCallback)
 
 
 r = rospy.Rate(100)
