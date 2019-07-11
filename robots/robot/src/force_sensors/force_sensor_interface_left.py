@@ -58,7 +58,7 @@ print "Tare done! Add weight now..."
 
 rospy.init_node('force_sensor_interface_left', log_level=rospy.DEBUG)
 
-force_sensor_left_pub = rospy.Publisher('/force_sensor_left', Int64, queue_size=1)
+force_sensor_left_pub = rospy.Publisher('force_sensor_left', Int64, queue_size=1)
 
 
 force_sensor_left_msg = Int64()
