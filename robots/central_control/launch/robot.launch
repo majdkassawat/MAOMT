@@ -1,0 +1,5 @@
+<launch>
+	<machine name="robot1" user="majd" address="192.168.2.188" default="true" env-loader="/home/majd/catkin_workspace/devel/remote_env.sh"/>
+	<include file="$(find robot)/launch/robot.launch" machine="robot1" />
+
+</launch>
