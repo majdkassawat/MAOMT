@@ -32,6 +32,10 @@ cmd_vel_msg = Twist()
 t_left_msg = Float64()
 t_right_msg = Float64()
 
+
+filtering_value = 300
+
+
 # modes of correction are :parallel, secuencial, single, semi-secuencial
 trajectory_plan = {"0": {}}  # trajectory
 # definition of the first point
@@ -63,13 +67,31 @@ trajectory_plan = {"0": {}}  # trajectory
 
 trajectory_plan["0"]["reached"] = False
 trajectory_plan["0"]["correction"] = {
-    "type": "semi-secuencial", "finished": False, "0": {}}
-trajectory_plan["0"]["correction"]["0"]["type"] = "single"
-trajectory_plan["0"]["correction"]["0"]["reference"] = "401_yaw"
-trajectory_plan["0"]["correction"]["0"]["error_tolerance"] = 0.0000005
+    "type": "parallel", "finished": False, "0": {}}
+
+# trajectory_plan["0"]["correction"]["0"]["type"] = "single"
+# trajectory_plan["0"]["correction"]["0"]["reference"] = "401_yaw"
+# trajectory_plan["0"]["correction"]["0"]["error_tolerance"] = 0.0000005
+# trajectory_plan["0"]["correction"]["0"]["controller_parameters"] = {
+#     "k": 10000, "bias": 0}
+# trajectory_plan["0"]["correction"]["0"]["target"] = 3.14
+# trajectory_plan["0"]["correction"]["0"]["finished"] = False
+
+# trajectory_plan["0"]["correction"]["1"]["type"] = "single"
+# trajectory_plan["0"]["correction"]["1"]["reference"] = "401_y"
+# trajectory_plan["0"]["correction"]["1"]["error_tolerance"] = 0.0000005
+# trajectory_plan["0"]["correction"]["1"]["controller_parameters"] = {
+#     "k": 300, "bias": 0}
+# trajectory_plan["0"]["correction"]["1"]["target"] = 0
+# trajectory_plan["0"]["correction"]["1"]["finished"] = False
+
+trajectory_plan["0"]["correction"]["0"]["type"] = "force_coupled"
+trajectory_plan["0"]["correction"]["0"]["reference"] = {"left":"fsl","right":"fsr"}
+trajectory_plan["0"]["correction"]["0"]["error_tolerance"] = 0.00005
 trajectory_plan["0"]["correction"]["0"]["controller_parameters"] = {
-    "k": 10, "bias": 0}
-trajectory_plan["0"]["correction"]["0"]["target"] = 3.14
+    "k": 0.01, "bias": 0}
+trajectory_plan["0"]["correction"]["0"]["target_left"] = 60
+trajectory_plan["0"]["correction"]["0"]["target_right"] = 60
 trajectory_plan["0"]["correction"]["0"]["finished"] = False
 
 
@@ -147,9 +169,22 @@ def process_correction(correction):
             if(abs(error) > error_tolerance):
                 # current_vel_z = ramp(current_vel_z, 0)
                 # current_vel_x = ramp(current_vel_x, 0)
-                # rospy.loginfo("correcting 401_yaw, error ="+str(error))
+                rospy.loginfo("correcting 401_yaw, error ="+str(error))
                 current_vel_t_left = ramp(current_vel_t_left, target_vel)
                 current_vel_t_right = ramp(current_vel_t_right, target_vel)
+                correction["finished"] = False
+            else:
+                current_vel_t_left = ramp(current_vel_t_left, 0)
+                current_vel_t_right = ramp(current_vel_t_right, 0)
+                correction["finished"] = True
+        elif correction["reference"] == "401_y":
+            # correct roll
+            if(abs(error) > error_tolerance):
+                # current_vel_z = ramp(current_vel_z, 0)
+                # current_vel_x = ramp(current_vel_x, 0)
+                rospy.loginfo("correcting 401_y, error ="+str(error))
+                current_vel_t_left = ramp(current_vel_t_left, target_vel)
+                current_vel_t_right = ramp(current_vel_t_right, -1 * target_vel)
                 correction["finished"] = False
             else:
                 current_vel_t_left = ramp(current_vel_t_left, 0)
@@ -180,6 +215,54 @@ def process_correction(correction):
                 continue
         if correction[str(len(correction)-3)]["finished"] == True:
             correction["finished"] = True
+    elif correction["type"] == "force_coupled":
+        error_left = float(refrences_dict[correction["reference"]["left"]]["value"]-correction["target_left"])+0.000001
+        error_right = float(refrences_dict[correction["reference"]["right"]]["value"]-correction["target_right"])+0.000001
+        k = correction["controller_parameters"]["k"]
+        bias = correction["controller_parameters"]["bias"]
+        error_tolerance = correction["error_tolerance"]
+        target_vel_left = (error_left) * k + (float(error_left)/abs(error_left)) * bias
+        target_vel_right = (error_right) * k + (float(error_right)/abs(error_right)) * bias
+        target_vel_both = (target_vel_left + target_vel_right)
+        if (((abs(error_left) > error_tolerance) and (error_left > 0)) and (abs(error_right) < error_tolerance) ):
+            #turn +
+            current_vel_x = ramp(current_vel_x, 0)
+            current_vel_angular = ramp(current_vel_angular, -1 * abs(target_vel_left))
+        elif (((abs(error_right) > error_tolerance) and (error_right > 0)) and (abs(error_left) < error_tolerance) ):
+            #turn -
+            current_vel_x = ramp(current_vel_x, 0)
+            current_vel_angular = ramp(current_vel_angular,  abs(target_vel_right))
+        elif (((abs(error_left) > error_tolerance) and (error_left < 0)) and (abs(error_right) < error_tolerance) ):
+            #turn -
+            current_vel_x = ramp(current_vel_x, 0)
+            current_vel_angular = ramp(current_vel_angular,  abs(target_vel_left))
+        elif (((abs(error_right) > error_tolerance) and (error_right < 0)) and (abs(error_left) < error_tolerance) ):
+            #turn +
+            current_vel_x = ramp(current_vel_x, 0)
+            current_vel_angular = ramp(current_vel_angular,-1 *  abs(target_vel_right))
+        elif (((abs(error_left) > error_tolerance) and (error_left < 0)) and ((abs(error_right) > error_tolerance) and (error_right < 0)) ):
+            # go forward
+            current_vel_x = ramp(current_vel_x, abs(target_vel_both)*2)
+            current_vel_angular = ramp(current_vel_angular, 0)           
+        elif (((abs(error_left) > error_tolerance) and (error_left > 0)) and ((abs(error_right) > error_tolerance) and (error_right > 0)) ):
+            # go backward
+            current_vel_x = ramp(current_vel_x, -1 * abs(target_vel_both))
+            current_vel_angular = ramp(current_vel_angular, 0)            
+        elif (((abs(error_left) > error_tolerance) and (error_left > 0)) and ((abs(error_right) > error_tolerance) and (error_right < 0)) ):
+            # turn +
+            current_vel_x = ramp(current_vel_x, 0)
+            current_vel_angular = ramp(current_vel_angular,-1 *  (abs(target_vel_right)+abs(target_vel_left)))
+        elif (((abs(error_left) > error_tolerance) and (error_left < 0)) and ((abs(error_right) > error_tolerance) and (error_right > 0)) ):
+            # turn -
+            current_vel_x = ramp(current_vel_x, 0)
+            current_vel_angular = ramp(current_vel_angular, (abs(target_vel_right)+abs(target_vel_left)))
+
+        elif ((abs(error_left) < error_tolerance) and (abs(error_right) < error_tolerance) ):
+            current_vel_x = ramp(current_vel_x, 0)
+            current_vel_angular = ramp(current_vel_angular, 0)
+            correction["finished"] = True
+        
+
     return correction["finished"]
 
 
@@ -218,19 +301,32 @@ def MarkersCallback(msg):
         refrences_dict[str(marker.id)+"_pitch"]={"type" : "marker","value" : pitch}
         refrences_dict[str(marker.id)+"_yaw"]={"type" : "marker","value" : yaw}
 
-        print("yaw:"+str(yaw)+" pitch:"+str(pitch)," roll:"+str(roll))
+        # print("yaw:"+str(yaw)+" pitch:"+str(pitch)," roll:"+str(roll))
 
 
 def force_sensor_left_Callback(msg):
-    global refrences_dict
-    refrences_dict["fsl"]={"type" : "force_sensor"}
-    refrences_dict["fsl"]["value"] = msg.data
-   
+    global refrences_dict,filtering_value
+    if "fsl" not in refrences_dict:
+        refrences_dict["fsl"]={"type" : "force_sensor"}
+        refrences_dict["fsl"]["value"] = msg.data       
+    elif (abs(msg.data) > abs(refrences_dict["fsl"]["value"]) + filtering_value):
+        print("left skipped a spike")
+    else:
+        refrences_dict["fsl"]={"type" : "force_sensor"}
+        refrences_dict["fsl"]["value"] = msg.data
+    # print(refrences_dict["fsl"]["value"])
 
 def force_sensor_right_Callback(msg):
-    global refrences_dict
-    refrences_dict["fsr"]={"type" : "force_sensor"}
-    refrences_dict["fsr"]["value"] = msg.data
+    global refrences_dict,filtering_value
+    if "fsr" not in refrences_dict:
+        refrences_dict["fsr"]={"type" : "force_sensor"}
+        refrences_dict["fsr"]["value"] = msg.data       
+    elif (abs(msg.data) > abs(refrences_dict["fsr"]["value"]) + filtering_value):
+        print("right skipped a spike")
+    else:
+        refrences_dict["fsr"]={"type" : "force_sensor"}
+        refrences_dict["fsr"]["value"] = msg.data
+    # print(refrences_dict["fsr"]["value"])
     
 
 def sigint_handler(signum, frame):
@@ -268,7 +364,11 @@ def controller():
             def fill_required_reference_list(element):
                 if isinstance(element, dict):
                     if "reference" in element:
-                        required_reference_list.append(element["reference"]) 
+                        if isinstance(element["reference"], dict):
+                            for ref in element["reference"]:
+                                required_reference_list.append(element["reference"][ref]) 
+                        else:    
+                            required_reference_list.append(element["reference"]) 
                     else:
                         for sub_element_key in element:
                             fill_required_reference_list(element[sub_element_key]) 
@@ -282,7 +382,7 @@ def controller():
             if check_all_references_available() == True:
                 # rospy.loginfo("processing point: " + str(crnt_trgt_pnt_idx) + ", reference found")
                 current_point["reached"] = process_correction(current_point["correction"])
-
+                print("left:",refrences_dict["fsl"]["value"]," right:",refrences_dict["fsr"]["value"])
             else:  # reference marker not found, stop
                 # rospy.loginfo("processing point: " + str(crnt_trgt_pnt_idx) + ", reference NOT found")
                 stop()
@@ -293,6 +393,8 @@ def controller():
 
     refrences_dict_lock = False
 
+    
+    
 
     # rospy.loginfo(refrences_dict)
     # prepare actuating messages to be published
