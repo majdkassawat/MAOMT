@@ -11,9 +11,9 @@ maximum_abs_speed = 1000
 maximum_distance_const = 40 # This is used to normalize the rotation velocity
 
 #Information of the chosen reference frame (in cm)
-lambda_ref = 0
-x_ref = -8
-z_ref = 5
+lambda_ref = 60
+x_ref = 0
+z_ref = 0
 
 #Here we need to indicate the Thetai,Zi,Xi,rotation_direction for every wheel.
 theta = [0,-120,120]
