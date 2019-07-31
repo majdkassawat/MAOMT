@@ -64,11 +64,32 @@ force_sensor_right_msg = Int64()
 
 
 r = rospy.Rate(10)
+
+current_sample = 0
+previous_sample = 0
+last_good_sample = 0
+output = 0
 while not rospy.is_shutdown():
+
     val_right = hx_right.get_weight(1)
 
-    force_sensor_right_msg.data=val_right
+    current_sample = val_right 
 
+    if current_sample < 0:
+        last_good_sample = 0
+        output = last_good_sample
+    elif current_sample > 1000:
+        output = last_good_sample
+    else:
+        diff = abs(current_sample - previous_sample)
+        if diff > 100:
+            output = last_good_sample
+        else: 
+            last_good_sample = current_sample
+            output = last_good_sample
+    previous_sample = current_sample
+
+    force_sensor_right_msg.data=output
     force_sensor_right_pub.publish(force_sensor_right_msg)
 
     r.sleep()
