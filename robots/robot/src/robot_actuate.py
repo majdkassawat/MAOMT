@@ -25,12 +25,12 @@ def cmdTwistVelCallback(msg):
 
 
 def cmdTractionLeftVelCallback(msg):
-    traction_wheel_left_controller_msg.data=msg.data
+    traction_wheel_left_controller_msg.data = msg.data
     traction_wheel_left_controller_pub.publish(traction_wheel_left_controller_msg)
 
 
 def cmdTractionRightVelCallback(msg):
-    traction_wheel_right_controller_msg.data=msg.data
+    traction_wheel_right_controller_msg.data = msg.data
     traction_wheel_right_controller_pub.publish(traction_wheel_right_controller_msg)
 
 
