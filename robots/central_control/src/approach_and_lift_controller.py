@@ -4,6 +4,7 @@ from aruco_msgs.msg import MarkerArray
 from std_msgs.msg import UInt32MultiArray
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64
+from geometry_msgs.msg import Pose2D
 from std_msgs.msg import Int64
 from std_msgs.msg import Bool
 import rospy
@@ -34,7 +35,8 @@ crnt_trgt_pnt_idx = 0
 cmd_vel_msg = Twist()
 t_left_msg = Float64()
 t_right_msg = Float64()
-
+# position message
+rotation_origin = Pose2D()
 
 filtering_value = 300
 
@@ -370,6 +372,7 @@ signal.signal(signal.SIGINT, sigint_handler)
 
 rospy.init_node('approach_and_lift_controller', log_level=rospy.INFO)
 cmd_vel_pub = rospy.Publisher('cmd_vel', Twist)
+rotation_origin_pub = rospy.Publisher('rotation_origin', Pose2D)
 t_left_vel_pub = rospy.Publisher('traction_wheel_left_vel', Float64)
 t_right_vel_pub = rospy.Publisher('traction_wheel_right_vel', Float64)
 sub = rospy.Subscriber('aruco_marker_publisher/markers',

@@ -3,8 +3,7 @@ import rospy
 import math
 from std_msgs.msg import Float64
 from geometry_msgs.msg import Twist
-
-
+from geometry_msgs.msg import Pose2D
 
 # constraints of the motors velocities
 maximum_abs_speed = 1000
@@ -27,24 +26,8 @@ b = -1
 c=[0,0,0]
 d=[0,0,0]
 
-#Inputs for Omnidirectional drivers from transmitor
-Vtz_manual = 0
-Vtx_manual = 0
-W_manual = 0
-
-#Inputs for Omnidirectional drivers automated
-Vtz_automated = 0
-Vtx_automated = 0
-W_automated = 0
-
-
-
-
-# def rad(deg):
-#   rad = deg * 1000 / 57296
-#   return rad
-
-for i in range(0,3):
+def calculate_matrices(x_ref, z_ref):
+    for i in range(0,3):
     # global a,c,d
     # print(rad(theta[i]))
     a[i] = math.tan(math.radians(theta[i]))
@@ -52,13 +35,17 @@ for i in range(0,3):
     d[i] = abs(a[i] * x_ref + b * z_ref + c[i]) / math.sqrt(a[i] * a[i] + b * b)
 
 
-def omnidirectional_driver(msg):
+def omnidirectional_driver(vel_msg, pos_msg):
     # global a,b,c,d,theta,z,x,rot_dir,lambda_ref,x_ref,z_ref
     # print("from the library",msg)
     final_vel=[0,0,0]
-    W = msg.angular.z 
-    Vtx = msg.linear.x
-    Vtz = msg.linear.y
+    W = vel_msg.angular.z 
+    Vtx = vel_msg.linear.x
+    Vtz = vel_msg.linear.y
+    lambda_ref = pos_msg.theta
+    x_ref = pos_msg.x
+    z_ref = pos_msg.y
+    calculate_matrices(x_ref, z_ref)
     for i in range(0,3):
         # global final_vel
         Vroti = 0
