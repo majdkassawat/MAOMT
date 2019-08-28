@@ -16,8 +16,8 @@ z_ref = 0
 
 #Here we need to indicate the Thetai,Zi,Xi,rotation_direction for every wheel.
 theta = [0,-120,120]
-z = [7, -3.5, -3.5] #in cm
-x = [0, 6, -6] #in cm
+z = [8.227, -4.114, -4.114] #in cm
+x = [0, 7.125, -7.125] #in cm
 rot_dir = [1, 1, 1]
 
 #Equations parameters to determine the distances from center
@@ -26,17 +26,20 @@ b = -1
 c=[0,0,0]
 d=[0,0,0]
 
-def calculate_matrices(x_ref, z_ref):
+def calculate_matrices():
+    global a,b,c,d,theta,z,x,rot_dir,lambda_ref,x_ref,z_ref
+
+    # rospy.loginfo("x: " + str(x_ref)+" z: " + str(z_ref))
     for i in range(0,3):
-    # global a,c,d
-    # print(rad(theta[i]))
-    a[i] = math.tan(math.radians(theta[i]))
-    c[i] = z[i] - a[i] * x[i]
-    d[i] = abs(a[i] * x_ref + b * z_ref + c[i]) / math.sqrt(a[i] * a[i] + b * b)
+        # global a,c,d
+        # print(rad(theta[i]))
+        a[i] = math.tan(math.radians(theta[i]))
+        c[i] = z[i] - a[i] * x[i]
+        d[i] = abs(a[i] * x_ref + b * z_ref + c[i]) / math.sqrt(a[i] * a[i] + b * b)
 
 
 def omnidirectional_driver(vel_msg, pos_msg):
-    # global a,b,c,d,theta,z,x,rot_dir,lambda_ref,x_ref,z_ref
+    global a,b,c,d,theta,z,x,rot_dir,lambda_ref,x_ref,z_ref
     # print("from the library",msg)
     final_vel=[0,0,0]
     W = vel_msg.angular.z 
@@ -45,7 +48,8 @@ def omnidirectional_driver(vel_msg, pos_msg):
     lambda_ref = pos_msg.theta
     x_ref = pos_msg.x
     z_ref = pos_msg.y
-    calculate_matrices(x_ref, z_ref)
+    calculate_matrices()
+    
     for i in range(0,3):
         # global final_vel
         Vroti = 0

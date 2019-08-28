@@ -23,6 +23,6 @@
                 --type=simple
                 wheel1_controller wheel2_controller wheel3_controller traction_wheel_left_controller traction_wheel_right_controller"
           output="screen"/>
-    <node name="robot_actuate" pkg="robot" type="robot_actuate.py" />
+    <node name="robot_actuate" pkg="robot" type="robot_actuate.py" output="screen" />
 
 </launch>

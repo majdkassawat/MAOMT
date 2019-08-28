@@ -36,70 +36,71 @@ cmd_vel_msg = Twist()
 t_left_msg = Float64()
 t_right_msg = Float64()
 # position message
-rotation_origin = Pose2D()
+rotation_origin_msg = Pose2D()
+rotation_origin_msg.theta = 60
 
 filtering_value = 300
 
 
 # modes of correction are :parallel, secuencial, single, semi-secuencial
-trajectory_plan = {"0": {}}  # trajectory
-# definition of the first point
-# trajectory_plan["0"]["reached"] = False
-# trajectory_plan["0"]["correction"] = {
-#     "type": "semi-secuencial", "finished": False, "0": {}, "1": {},"2":{}}
-# trajectory_plan["0"]["correction"]["2"]["type"] = "single"
-# trajectory_plan["0"]["correction"]["2"]["reference"] = "401_x"
-# trajectory_plan["0"]["correction"]["2"]["error_tolerance"] = 0.005
-# trajectory_plan["0"]["correction"]["2"]["controller_parameters"] = {
-#     "k": -8, "bias": -2}
-# trajectory_plan["0"]["correction"]["2"]["target"] = 0
-# trajectory_plan["0"]["correction"]["2"]["finished"] = False
-# trajectory_plan["0"]["correction"]["0"]["type"] = "single"
-# trajectory_plan["0"]["correction"]["0"]["reference"] = "401_pitch"
-# trajectory_plan["0"]["correction"]["0"]["error_tolerance"] = 0.05
-# trajectory_plan["0"]["correction"]["0"]["controller_parameters"] = {
-#     "k": 5, "bias": 2}
-# trajectory_plan["0"]["correction"]["0"]["target"] = 0
-# trajectory_plan["0"]["correction"]["0"]["finished"] = False
-# trajectory_plan["0"]["correction"]["1"]["type"] = "single"
-# trajectory_plan["0"]["correction"]["1"]["reference"] = "401_z"
-# trajectory_plan["0"]["correction"]["1"]["error_tolerance"] = 0.005
-# trajectory_plan["0"]["correction"]["1"]["controller_parameters"] = {
-#     "k": 5, "bias": 2}
-# trajectory_plan["0"]["correction"]["1"]["target"] = 0.2
-# trajectory_plan["0"]["correction"]["1"]["finished"] = False
-
-
+trajectory_plan = {"0": {},"1": {}}  # trajectory
+#definition of the first point
 trajectory_plan["0"]["reached"] = False
 trajectory_plan["0"]["correction"] = {
-    "type": "parallel", "finished": False, "0": {}, "1": {}, "2": {}}
-
-
-trajectory_plan["0"]["correction"]["0"]["type"] = "force_coupled"
-trajectory_plan["0"]["correction"]["0"]["reference"] = {
-    "left": "fsl", "right": "fsr"}
-trajectory_plan["0"]["correction"]["0"]["total_pressure_tolerance"] = 0.00005
-trajectory_plan["0"]["correction"]["0"]["difference_pressure_tolerance"] = 20
+    "type": "semi-secuencial", "finished": False, "0": {},"1": {}}
+trajectory_plan["0"]["correction"]["0"]["type"] = "single"
+trajectory_plan["0"]["correction"]["0"]["reference"] = "401_x"
+trajectory_plan["0"]["correction"]["0"]["error_tolerance"] = 0.005
 trajectory_plan["0"]["correction"]["0"]["controller_parameters"] = {
-    "k_turn": -0.03, "bias_turn": 0, "k_linear": 0.03, "bias_linear": 0}
-trajectory_plan["0"]["correction"]["0"]["target"] = 100
+    "k": -8, "bias": -2}
+trajectory_plan["0"]["correction"]["0"]["target"] = 0
 trajectory_plan["0"]["correction"]["0"]["finished"] = False
-
+# trajectory_plan["0"]["correction"]["2"]["type"] = "single"
+# trajectory_plan["0"]["correction"]["2"]["reference"] = "401_pitch"
+# trajectory_plan["0"]["correction"]["2"]["error_tolerance"] = 0.03
+# trajectory_plan["0"]["correction"]["2"]["controller_parameters"] = {
+#     "k": 20, "bias": 2}
+# trajectory_plan["0"]["correction"]["2"]["target"] = 0
+# trajectory_plan["0"]["correction"]["2"]["finished"] = False
 trajectory_plan["0"]["correction"]["1"]["type"] = "single"
-trajectory_plan["0"]["correction"]["1"]["reference"] = "401_yaw"
-trajectory_plan["0"]["correction"]["1"]["error_tolerance"] = 0.0000005
+trajectory_plan["0"]["correction"]["1"]["reference"] = "401_z"
+trajectory_plan["0"]["correction"]["1"]["error_tolerance"] = 0.005
 trajectory_plan["0"]["correction"]["1"]["controller_parameters"] = {
-    "k": 1, "bias": 1}
-trajectory_plan["0"]["correction"]["1"]["target"] = 3.14
+    "k": 20, "bias": 2}
+trajectory_plan["0"]["correction"]["1"]["target"] = 0.18
 trajectory_plan["0"]["correction"]["1"]["finished"] = False
 
-trajectory_plan["0"]["correction"]["2"]["type"] = "single"
-trajectory_plan["0"]["correction"]["2"]["reference"] = "401_y"
-trajectory_plan["0"]["correction"]["2"]["error_tolerance"] = 0.0000005
-trajectory_plan["0"]["correction"]["2"]["controller_parameters"] = {
-    "k": 300, "bias": 0}
-trajectory_plan["0"]["correction"]["2"]["target"] = 0
-trajectory_plan["0"]["correction"]["2"]["finished"] = False
+
+trajectory_plan["1"]["reached"] = False
+trajectory_plan["1"]["correction"] = {
+    "type": "parallel", "finished": False, "0": {}, "1": {},"2": {}}
+
+
+trajectory_plan["1"]["correction"]["0"]["type"] = "force_coupled"
+trajectory_plan["1"]["correction"]["0"]["reference"] = {
+    "left": "fsl", "right": "fsr"}
+trajectory_plan["1"]["correction"]["0"]["total_pressure_tolerance"] = 0.00005
+trajectory_plan["1"]["correction"]["0"]["difference_pressure_tolerance"] = 30
+trajectory_plan["1"]["correction"]["0"]["controller_parameters"] = {
+    "k_turn": -0.015, "bias_turn": 0, "k_linear": 0.025, "bias_linear": 0.01}
+trajectory_plan["1"]["correction"]["0"]["target"] = 150
+trajectory_plan["1"]["correction"]["0"]["finished"] = False
+
+trajectory_plan["1"]["correction"]["2"]["type"] = "single"
+trajectory_plan["1"]["correction"]["2"]["reference"] = "401_yaw"
+trajectory_plan["1"]["correction"]["2"]["error_tolerance"] = 0.0000005
+trajectory_plan["1"]["correction"]["2"]["controller_parameters"] = {
+    "k": 10, "bias": 2}
+trajectory_plan["1"]["correction"]["2"]["target"] = 3.14
+trajectory_plan["1"]["correction"]["2"]["finished"] = False
+
+trajectory_plan["1"]["correction"]["1"]["type"] = "single"
+trajectory_plan["1"]["correction"]["1"]["reference"] = "401_y"
+trajectory_plan["1"]["correction"]["1"]["error_tolerance"] = 0.0000005
+trajectory_plan["1"]["correction"]["1"]["controller_parameters"] = {
+    "k": 10, "bias": 2}
+trajectory_plan["1"]["correction"]["1"]["target"] = 0
+trajectory_plan["1"]["correction"]["1"]["finished"] = False
 
 
 def ramp(beginning_value, ending_value):
@@ -125,7 +126,9 @@ def stop():
 
 
 def process_correction(correction):
-    global current_vel_x, current_vel_y, current_vel_z, current_vel_angular, current_vel_t_left, current_vel_t_right, refrences_dict
+    global current_vel_x, current_vel_y, current_vel_z, current_vel_angular, current_vel_t_left, current_vel_t_right, refrences_dict, rotation_origin
+    rotation_origin_msg.x = 0
+    rotation_origin_msg.y = 0
     if correction["type"] == "single":
         error = refrences_dict[correction["reference"]
                                ]["value"]-correction["target"]
@@ -162,6 +165,9 @@ def process_correction(correction):
                 # current_vel_z = ramp(current_vel_z, 0)
                 # current_vel_x = ramp(current_vel_x, 0)
                 rospy.loginfo("correcting 401_pitch, error ="+str(error))
+                
+                # rotation_origin_msg.x = refrences_dict["401_x"]["value"] * 100
+                # rotation_origin_msg.y = refrences_dict["401_z"]["value"] * 100
                 current_vel_angular = ramp(current_vel_angular, target_vel)
                 correction["finished"] = False
             else:
@@ -426,8 +432,8 @@ def controller():
                 # rospy.loginfo("processing point: " + str(crnt_trgt_pnt_idx) + ", reference found")
                 current_point["reached"] = process_correction(
                     current_point["correction"])
-                print("left:", refrences_dict["fsl"]["value"],
-                      " right:", refrences_dict["fsr"]["value"])
+                # print("left:", refrences_dict["fsl"]["value"],
+                #       " right:", refrences_dict["fsr"]["value"])
             else:  # reference marker not found, stop
                 # rospy.loginfo("processing point: " + str(crnt_trgt_pnt_idx) + ", reference NOT found")
                 stop()
@@ -455,7 +461,7 @@ def controller():
     cmd_vel_pub.publish(cmd_vel_msg)
     t_left_vel_pub.publish(t_left_msg)
     t_right_vel_pub.publish(t_right_msg)
-
+    rotation_origin_pub.publish(rotation_origin_msg)
     # set the timer to fire up the same function in the specifc time period
     if cancel_signal != True:
         sleep_time = 1/float(freq)
