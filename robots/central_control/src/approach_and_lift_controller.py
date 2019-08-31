@@ -141,64 +141,57 @@ def process_correction(correction):
             # correct z
             if(abs(error) > error_tolerance):
                 rospy.loginfo("correcting 401_x, error ="+str(error))
+                stop()
                 current_vel_y = ramp(current_vel_y, target_vel)
-                # current_vel_x = ramp(current_vel_x, 0)
-                # current_vel_roll = ramp(current_vel_roll, 0)
                 correction["finished"] = False
             else:
-                current_vel_y = ramp(current_vel_y, 0)
+                stop()
                 correction["finished"] = True
         elif correction["reference"] == "401_z":
             # correct x
             if(abs(error) > error_tolerance):
                 rospy.loginfo("correcting 401_z, error ="+str(error))
-                # current_vel_z = ramp(current_vel_z, 0)
+                stop()
                 current_vel_x = ramp(current_vel_x, target_vel)
-                # current_vel_roll = ramp(current_vel_roll, 0)
                 correction["finished"] = False
             else:
-                current_vel_x = ramp(current_vel_x, 0)
+                stop()
                 correction["finished"] = True
         elif correction["reference"] == "401_pitch":
             # correct roll
             if(abs(error) > error_tolerance):
-                # current_vel_z = ramp(current_vel_z, 0)
-                # current_vel_x = ramp(current_vel_x, 0)
                 rospy.loginfo("correcting 401_pitch, error ="+str(error))
                 
                 # rotation_origin_msg.x = refrences_dict["401_x"]["value"] * 100
-                # rotation_origin_msg.y = refrences_dict["401_z"]["value"] * 100
+                # rotation_origin_msg.y = refrences_dict["401_z"]["value"] * 
+                stop()
                 current_vel_angular = ramp(current_vel_angular, target_vel)
                 correction["finished"] = False
             else:
-                current_vel_angular = ramp(current_vel_angular, 0)
+                stop()
                 correction["finished"] = True
         elif correction["reference"] == "401_yaw":
             # correct roll
             if(abs(error) > error_tolerance):
-                # current_vel_z = ramp(current_vel_z, 0)
-                # current_vel_x = ramp(current_vel_x, 0)
                 rospy.loginfo("correcting 401_yaw, error ="+str(error))
+                stop()
                 current_vel_t_left = ramp(current_vel_t_left, target_vel)
                 current_vel_t_right = ramp(current_vel_t_right, target_vel)
                 correction["finished"] = False
             else:
-                current_vel_t_left = ramp(current_vel_t_left, 0)
-                current_vel_t_right = ramp(current_vel_t_right, 0)
+                stop()
                 correction["finished"] = True
         elif correction["reference"] == "401_y":
             # correct roll
             if(abs(error) > error_tolerance):
-                # current_vel_z = ramp(current_vel_z, 0)
-                # current_vel_x = ramp(current_vel_x, 0)
                 rospy.loginfo("correcting 401_y, error ="+str(error))
+                stop()
                 current_vel_t_left = ramp(current_vel_t_left, target_vel)
                 current_vel_t_right = ramp(
                     current_vel_t_right, -1 * target_vel)
                 correction["finished"] = False
             else:
-                current_vel_t_left = ramp(current_vel_t_left, 0)
-                current_vel_t_right = ramp(current_vel_t_right, 0)
+                stop()
                 correction["finished"] = True
     elif correction["type"] == "secuencial":
         for i in range(0, len(correction)-2):
@@ -210,11 +203,30 @@ def process_correction(correction):
         if correction[str(len(correction)-3)]["finished"] == True:
             correction["finished"] = True
     elif correction["type"] == "parallel":
+        #defining sum variables
+        sum_vel_x = 0
+        sum_vel_y = 0
+        sum_vel_angular = 0
+        sum_vel_t_left = 0
+        sum_vel_t_right = 0
         correction["finished"] = True
         for i in range(0, len(correction)-2):
             process_correction(correction[str(i)])
+            #agregating the values
+            sum_vel_x = sum_vel_x + current_vel_x
+            sum_vel_y = sum_vel_y + current_vel_y
+            sum_vel_angular = sum_vel_angular + current_vel_angular
+            sum_vel_t_left = sum_vel_t_left + current_vel_t_left
+            sum_vel_t_right = sum_vel_t_right + current_vel_t_right
             if correction[str(i)]["finished"] == False:
                 correction["finished"] = False
+        #reassigning the summed values to current values to be outputted
+        current_vel_x = sum_vel_x
+        current_vel_y = sum_vel_y
+        current_vel_angular = sum_vel_angular
+        current_vel_t_left = sum_vel_t_left
+        current_vel_t_right = sum_vel_t_right
+        
     elif correction["type"] == "semi-secuencial":
         for i in range(0, len(correction)-2):
             if correction[str(i)]["finished"] == False:
@@ -251,52 +263,6 @@ def process_correction(correction):
             # stop
             current_vel_x = ramp(current_vel_x, 0)
             current_vel_angular = ramp(current_vel_angular, 0)
-
-        # error_left = float(refrences_dict[correction["reference"]["left"]]["value"]-correction["target_left"])+0.000001
-        # error_right = float(refrences_dict[correction["reference"]["right"]]["value"]-correction["target_right"])+0.000001
-        # k = correction["controller_parameters"]["k"]
-        # bias = correction["controller_parameters"]["bias"]
-        # error_tolerance = correction["error_tolerance"]
-        # target_vel_left = (error_left) * k + (float(error_left)/abs(error_left)) * bias
-        # target_vel_right = (error_right) * k + (float(error_right)/abs(error_right)) * bias
-        # target_vel_both = (target_vel_left + target_vel_right)
-        # if (((abs(error_left) > error_tolerance) and (error_left > 0)) and (abs(error_right) < error_tolerance) ):
-        #     #turn +
-        #     current_vel_x = ramp(current_vel_x, 0)
-        #     current_vel_angular = ramp(current_vel_angular, -1 * abs(target_vel_left))
-        # elif (((abs(error_right) > error_tolerance) and (error_right > 0)) and (abs(error_left) < error_tolerance) ):
-        #     #turn -
-        #     current_vel_x = ramp(current_vel_x, 0)
-        #     current_vel_angular = ramp(current_vel_angular,  abs(target_vel_right))
-        # elif (((abs(error_left) > error_tolerance) and (error_left < 0)) and (abs(error_right) < error_tolerance) ):
-        #     #turn -
-        #     current_vel_x = ramp(current_vel_x, 0)
-        #     current_vel_angular = ramp(current_vel_angular,  abs(target_vel_left))
-        # elif (((abs(error_right) > error_tolerance) and (error_right < 0)) and (abs(error_left) < error_tolerance) ):
-        #     #turn +
-        #     current_vel_x = ramp(current_vel_x, 0)
-        #     current_vel_angular = ramp(current_vel_angular,-1 *  abs(target_vel_right))
-        # elif (((abs(error_left) > error_tolerance) and (error_left < 0)) and ((abs(error_right) > error_tolerance) and (error_right < 0)) ):
-        #     # go forward
-        #     current_vel_x = ramp(current_vel_x, abs(target_vel_both)*2)
-        #     current_vel_angular = ramp(current_vel_angular, 0)
-        # elif (((abs(error_left) > error_tolerance) and (error_left > 0)) and ((abs(error_right) > error_tolerance) and (error_right > 0)) ):
-        #     # go backward
-        #     current_vel_x = ramp(current_vel_x, -1 * abs(target_vel_both))
-        #     current_vel_angular = ramp(current_vel_angular, 0)
-        # elif (((abs(error_left) > error_tolerance) and (error_left > 0)) and ((abs(error_right) > error_tolerance) and (error_right < 0)) ):
-        #     # turn +
-        #     current_vel_x = ramp(current_vel_x, 0)
-        #     current_vel_angular = ramp(current_vel_angular,-1 *  (abs(target_vel_right)+abs(target_vel_left)))
-        # elif (((abs(error_left) > error_tolerance) and (error_left < 0)) and ((abs(error_right) > error_tolerance) and (error_right > 0)) ):
-        #     # turn -
-        #     current_vel_x = ramp(current_vel_x, 0)
-        #     current_vel_angular = ramp(current_vel_angular, (abs(target_vel_right)+abs(target_vel_left)))
-
-        # elif ((abs(error_left) < error_tolerance) and (abs(error_right) < error_tolerance) ):
-        #     current_vel_x = ramp(current_vel_x, 0)
-        #     current_vel_angular = ramp(current_vel_angular, 0)
-        #     correction["finished"] = True
 
     return correction["finished"]
 
