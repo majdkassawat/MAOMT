@@ -1,0 +1,77 @@
+{
+    "0": {
+        "reached": false,
+        "correction": {
+            "type": "semi-secuencial",
+            "finished": false,
+            "0": {
+                "type": "single",
+                "reference": "401_x",
+                "error_tolerance": 0.005,
+                "controller_parameters": {
+                    "k": -8,
+                    "bias": -2
+                },
+                "target": 0,
+                "finished": false
+            },
+            "1": {
+                "type": "single",
+                "reference": "401_z",
+                "error_tolerance": 0.005,
+                "controller_parameters": {
+                    "k": 20,
+                    "bias": 2
+                },
+                "target": 0.18,
+                "finished": false
+            }
+        }
+    },
+    "1": {
+        "reached": false,
+        "correction": {
+            "type": "parallel",
+            "finished": false,
+            "0": {
+                "type": "force_coupled",
+                "reference": {
+                    "left": "fsl",
+                    "right": "fsr"
+                },
+                "total_pressure_tolerance": 0.00005,
+                "difference_pressure_tolerance": 30,
+                "controller_parameters": {
+                    "k_turn": -0.015,
+                    "bias_turn": 0,
+                    "k_linear": 0.025,
+                    "bias_linear": 0.01
+                },
+                "target": 150,
+                "finished": false
+            },
+            "2": {
+                "type": "single",
+                "reference": "401_yaw",
+                "error_tolerance": 0.0000005,
+                "controller_parameters": {
+                    "k": 10,
+                    "bias": 2
+                },
+                "target": 3.14,
+                "finished": false
+            },
+            "1": {
+                "type": "single",
+                "reference": "401_y",
+                "error_tolerance": 0.0000005,
+                "controller_parameters": {
+                    "k": 10,
+                    "bias": 2
+                },
+                "target": 0,
+                "finished": false
+            }
+        }
+    }
+}
