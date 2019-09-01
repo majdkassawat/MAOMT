@@ -14,6 +14,10 @@ import time
 import threading
 import signal
 from collections import Iterable
+import json
+import os
+import pprint
+
 
 cancel_signal = False
 stop_signal = False
@@ -41,66 +45,77 @@ rotation_origin_msg.theta = 60
 
 filtering_value = 300
 
+trajectory_plan = {}
 
-# modes of correction are :parallel, secuencial, single, semi-secuencial
-trajectory_plan = {"0": {},"1": {}}  # trajectory
-#definition of the first point
-trajectory_plan["0"]["reached"] = False
-trajectory_plan["0"]["correction"] = {
-    "type": "semi-secuencial", "finished": False, "0": {},"1": {}}
-trajectory_plan["0"]["correction"]["0"]["type"] = "single"
-trajectory_plan["0"]["correction"]["0"]["reference"] = "401_x"
-trajectory_plan["0"]["correction"]["0"]["error_tolerance"] = 0.005
-trajectory_plan["0"]["correction"]["0"]["controller_parameters"] = {
-    "k": -8, "bias": -2}
-trajectory_plan["0"]["correction"]["0"]["target"] = 0
-trajectory_plan["0"]["correction"]["0"]["finished"] = False
-# trajectory_plan["0"]["correction"]["2"]["type"] = "single"
-# trajectory_plan["0"]["correction"]["2"]["reference"] = "401_pitch"
-# trajectory_plan["0"]["correction"]["2"]["error_tolerance"] = 0.03
-# trajectory_plan["0"]["correction"]["2"]["controller_parameters"] = {
+script_dir = os.path.dirname(os.path.realpath(__file__))
+parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
+config_dir = parent_dir + "/config/"
+# print(config_dir)
+with open(config_dir + 'trj_1.json') as json_file:
+    global trajectory_plan
+    trajectory_plan = json.load(json_file)
+    pprint.pprint(trajectory_plan)
+
+
+# # modes of correction are :parallel, secuencial, single, semi-secuencial
+# trajectory_plan = {"0": {}, "1": {}}  # trajectory
+# # definition of the first point
+# trajectory_plan["0"]["reached"] = False
+# trajectory_plan["0"]["correction"] = {
+#     "type": "semi-secuencial", "finished": False, "0": {}, "1": {}}
+# trajectory_plan["0"]["correction"]["0"]["type"] = "single"
+# trajectory_plan["0"]["correction"]["0"]["reference"] = "401_x"
+# trajectory_plan["0"]["correction"]["0"]["error_tolerance"] = 0.005
+# trajectory_plan["0"]["correction"]["0"]["controller_parameters"] = {
+#     "k": -8, "bias": -2}
+# trajectory_plan["0"]["correction"]["0"]["target"] = 0
+# trajectory_plan["0"]["correction"]["0"]["finished"] = False
+# # trajectory_plan["0"]["correction"]["2"]["type"] = "single"
+# # trajectory_plan["0"]["correction"]["2"]["reference"] = "401_pitch"
+# # trajectory_plan["0"]["correction"]["2"]["error_tolerance"] = 0.03
+# # trajectory_plan["0"]["correction"]["2"]["controller_parameters"] = {
+# #     "k": 20, "bias": 2}
+# # trajectory_plan["0"]["correction"]["2"]["target"] = 0
+# # trajectory_plan["0"]["correction"]["2"]["finished"] = False
+# trajectory_plan["0"]["correction"]["1"]["type"] = "single"
+# trajectory_plan["0"]["correction"]["1"]["reference"] = "401_z"
+# trajectory_plan["0"]["correction"]["1"]["error_tolerance"] = 0.005
+# trajectory_plan["0"]["correction"]["1"]["controller_parameters"] = {
 #     "k": 20, "bias": 2}
-# trajectory_plan["0"]["correction"]["2"]["target"] = 0
-# trajectory_plan["0"]["correction"]["2"]["finished"] = False
-trajectory_plan["0"]["correction"]["1"]["type"] = "single"
-trajectory_plan["0"]["correction"]["1"]["reference"] = "401_z"
-trajectory_plan["0"]["correction"]["1"]["error_tolerance"] = 0.005
-trajectory_plan["0"]["correction"]["1"]["controller_parameters"] = {
-    "k": 20, "bias": 2}
-trajectory_plan["0"]["correction"]["1"]["target"] = 0.18
-trajectory_plan["0"]["correction"]["1"]["finished"] = False
+# trajectory_plan["0"]["correction"]["1"]["target"] = 0.18
+# trajectory_plan["0"]["correction"]["1"]["finished"] = False
 
 
-trajectory_plan["1"]["reached"] = False
-trajectory_plan["1"]["correction"] = {
-    "type": "parallel", "finished": False, "0": {}, "1": {},"2": {}}
+# trajectory_plan["1"]["reached"] = False
+# trajectory_plan["1"]["correction"] = {
+#     "type": "parallel", "finished": False, "0": {}, "1": {}, "2": {}}
 
 
-trajectory_plan["1"]["correction"]["0"]["type"] = "force_coupled"
-trajectory_plan["1"]["correction"]["0"]["reference"] = {
-    "left": "fsl", "right": "fsr"}
-trajectory_plan["1"]["correction"]["0"]["total_pressure_tolerance"] = 0.00005
-trajectory_plan["1"]["correction"]["0"]["difference_pressure_tolerance"] = 30
-trajectory_plan["1"]["correction"]["0"]["controller_parameters"] = {
-    "k_turn": -0.015, "bias_turn": 0, "k_linear": 0.025, "bias_linear": 0.01}
-trajectory_plan["1"]["correction"]["0"]["target"] = 150
-trajectory_plan["1"]["correction"]["0"]["finished"] = False
+# trajectory_plan["1"]["correction"]["0"]["type"] = "force_coupled"
+# trajectory_plan["1"]["correction"]["0"]["reference"] = {
+#     "left": "fsl", "right": "fsr"}
+# trajectory_plan["1"]["correction"]["0"]["total_pressure_tolerance"] = 0.00005
+# trajectory_plan["1"]["correction"]["0"]["difference_pressure_tolerance"] = 30
+# trajectory_plan["1"]["correction"]["0"]["controller_parameters"] = {
+#     "k_turn": -0.015, "bias_turn": 0, "k_linear": 0.025, "bias_linear": 0.01}
+# trajectory_plan["1"]["correction"]["0"]["target"] = 150
+# trajectory_plan["1"]["correction"]["0"]["finished"] = False
 
-trajectory_plan["1"]["correction"]["2"]["type"] = "single"
-trajectory_plan["1"]["correction"]["2"]["reference"] = "401_yaw"
-trajectory_plan["1"]["correction"]["2"]["error_tolerance"] = 0.0000005
-trajectory_plan["1"]["correction"]["2"]["controller_parameters"] = {
-    "k": 10, "bias": 2}
-trajectory_plan["1"]["correction"]["2"]["target"] = 3.14
-trajectory_plan["1"]["correction"]["2"]["finished"] = False
+# trajectory_plan["1"]["correction"]["2"]["type"] = "single"
+# trajectory_plan["1"]["correction"]["2"]["reference"] = "401_yaw"
+# trajectory_plan["1"]["correction"]["2"]["error_tolerance"] = 0.0000005
+# trajectory_plan["1"]["correction"]["2"]["controller_parameters"] = {
+#     "k": 10, "bias": 2}
+# trajectory_plan["1"]["correction"]["2"]["target"] = 3.14
+# trajectory_plan["1"]["correction"]["2"]["finished"] = False
 
-trajectory_plan["1"]["correction"]["1"]["type"] = "single"
-trajectory_plan["1"]["correction"]["1"]["reference"] = "401_y"
-trajectory_plan["1"]["correction"]["1"]["error_tolerance"] = 0.0000005
-trajectory_plan["1"]["correction"]["1"]["controller_parameters"] = {
-    "k": 10, "bias": 2}
-trajectory_plan["1"]["correction"]["1"]["target"] = 0
-trajectory_plan["1"]["correction"]["1"]["finished"] = False
+# trajectory_plan["1"]["correction"]["1"]["type"] = "single"
+# trajectory_plan["1"]["correction"]["1"]["reference"] = "401_y"
+# trajectory_plan["1"]["correction"]["1"]["error_tolerance"] = 0.0000005
+# trajectory_plan["1"]["correction"]["1"]["controller_parameters"] = {
+#     "k": 10, "bias": 2}
+# trajectory_plan["1"]["correction"]["1"]["target"] = 0
+# trajectory_plan["1"]["correction"]["1"]["finished"] = False
 
 
 def ramp(beginning_value, ending_value):
@@ -161,9 +176,9 @@ def process_correction(correction):
             # correct roll
             if(abs(error) > error_tolerance):
                 rospy.loginfo("correcting 401_pitch, error ="+str(error))
-                
+
                 # rotation_origin_msg.x = refrences_dict["401_x"]["value"] * 100
-                # rotation_origin_msg.y = refrences_dict["401_z"]["value"] * 
+                # rotation_origin_msg.y = refrences_dict["401_z"]["value"] *
                 stop()
                 current_vel_angular = ramp(current_vel_angular, target_vel)
                 correction["finished"] = False
@@ -203,7 +218,7 @@ def process_correction(correction):
         if correction[str(len(correction)-3)]["finished"] == True:
             correction["finished"] = True
     elif correction["type"] == "parallel":
-        #defining sum variables
+        # defining sum variables
         sum_vel_x = 0
         sum_vel_y = 0
         sum_vel_angular = 0
@@ -212,7 +227,7 @@ def process_correction(correction):
         correction["finished"] = True
         for i in range(0, len(correction)-2):
             process_correction(correction[str(i)])
-            #agregating the values
+            # agregating the values
             sum_vel_x = sum_vel_x + current_vel_x
             sum_vel_y = sum_vel_y + current_vel_y
             sum_vel_angular = sum_vel_angular + current_vel_angular
@@ -220,13 +235,13 @@ def process_correction(correction):
             sum_vel_t_right = sum_vel_t_right + current_vel_t_right
             if correction[str(i)]["finished"] == False:
                 correction["finished"] = False
-        #reassigning the summed values to current values to be outputted
+        # reassigning the summed values to current values to be outputted
         current_vel_x = sum_vel_x
         current_vel_y = sum_vel_y
         current_vel_angular = sum_vel_angular
         current_vel_t_left = sum_vel_t_left
         current_vel_t_right = sum_vel_t_right
-        
+
     elif correction["type"] == "semi-secuencial":
         for i in range(0, len(correction)-2):
             if correction[str(i)]["finished"] == False:
@@ -343,10 +358,12 @@ def sigint_handler(signum, frame):
 signal.signal(signal.SIGINT, sigint_handler)
 
 rospy.init_node('approach_and_lift_controller', log_level=rospy.INFO)
-cmd_vel_pub = rospy.Publisher('cmd_vel', Twist)
-rotation_origin_pub = rospy.Publisher('rotation_origin', Pose2D)
-t_left_vel_pub = rospy.Publisher('traction_wheel_left_vel', Float64)
-t_right_vel_pub = rospy.Publisher('traction_wheel_right_vel', Float64)
+cmd_vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
+rotation_origin_pub = rospy.Publisher('rotation_origin', Pose2D, queue_size=10)
+t_left_vel_pub = rospy.Publisher(
+    'traction_wheel_left_vel', Float64, queue_size=10)
+t_right_vel_pub = rospy.Publisher(
+    'traction_wheel_right_vel', Float64, queue_size=10)
 sub = rospy.Subscriber('aruco_marker_publisher/markers',
                        MarkerArray, MarkersCallback)
 sub_markers_list = rospy.Subscriber(
