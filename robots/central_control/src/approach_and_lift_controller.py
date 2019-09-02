@@ -52,70 +52,7 @@ parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
 config_dir = parent_dir + "/config/"
 # print(config_dir)
 with open(config_dir + 'trj_1.json') as json_file:
-    global trajectory_plan
     trajectory_plan = json.load(json_file)
-    pprint.pprint(trajectory_plan)
-
-
-# # modes of correction are :parallel, secuencial, single, semi-secuencial
-# trajectory_plan = {"0": {}, "1": {}}  # trajectory
-# # definition of the first point
-# trajectory_plan["0"]["reached"] = False
-# trajectory_plan["0"]["correction"] = {
-#     "type": "semi-secuencial", "finished": False, "0": {}, "1": {}}
-# trajectory_plan["0"]["correction"]["0"]["type"] = "single"
-# trajectory_plan["0"]["correction"]["0"]["reference"] = "401_x"
-# trajectory_plan["0"]["correction"]["0"]["error_tolerance"] = 0.005
-# trajectory_plan["0"]["correction"]["0"]["controller_parameters"] = {
-#     "k": -8, "bias": -2}
-# trajectory_plan["0"]["correction"]["0"]["target"] = 0
-# trajectory_plan["0"]["correction"]["0"]["finished"] = False
-# # trajectory_plan["0"]["correction"]["2"]["type"] = "single"
-# # trajectory_plan["0"]["correction"]["2"]["reference"] = "401_pitch"
-# # trajectory_plan["0"]["correction"]["2"]["error_tolerance"] = 0.03
-# # trajectory_plan["0"]["correction"]["2"]["controller_parameters"] = {
-# #     "k": 20, "bias": 2}
-# # trajectory_plan["0"]["correction"]["2"]["target"] = 0
-# # trajectory_plan["0"]["correction"]["2"]["finished"] = False
-# trajectory_plan["0"]["correction"]["1"]["type"] = "single"
-# trajectory_plan["0"]["correction"]["1"]["reference"] = "401_z"
-# trajectory_plan["0"]["correction"]["1"]["error_tolerance"] = 0.005
-# trajectory_plan["0"]["correction"]["1"]["controller_parameters"] = {
-#     "k": 20, "bias": 2}
-# trajectory_plan["0"]["correction"]["1"]["target"] = 0.18
-# trajectory_plan["0"]["correction"]["1"]["finished"] = False
-
-
-# trajectory_plan["1"]["reached"] = False
-# trajectory_plan["1"]["correction"] = {
-#     "type": "parallel", "finished": False, "0": {}, "1": {}, "2": {}}
-
-
-# trajectory_plan["1"]["correction"]["0"]["type"] = "force_coupled"
-# trajectory_plan["1"]["correction"]["0"]["reference"] = {
-#     "left": "fsl", "right": "fsr"}
-# trajectory_plan["1"]["correction"]["0"]["total_pressure_tolerance"] = 0.00005
-# trajectory_plan["1"]["correction"]["0"]["difference_pressure_tolerance"] = 30
-# trajectory_plan["1"]["correction"]["0"]["controller_parameters"] = {
-#     "k_turn": -0.015, "bias_turn": 0, "k_linear": 0.025, "bias_linear": 0.01}
-# trajectory_plan["1"]["correction"]["0"]["target"] = 150
-# trajectory_plan["1"]["correction"]["0"]["finished"] = False
-
-# trajectory_plan["1"]["correction"]["2"]["type"] = "single"
-# trajectory_plan["1"]["correction"]["2"]["reference"] = "401_yaw"
-# trajectory_plan["1"]["correction"]["2"]["error_tolerance"] = 0.0000005
-# trajectory_plan["1"]["correction"]["2"]["controller_parameters"] = {
-#     "k": 10, "bias": 2}
-# trajectory_plan["1"]["correction"]["2"]["target"] = 3.14
-# trajectory_plan["1"]["correction"]["2"]["finished"] = False
-
-# trajectory_plan["1"]["correction"]["1"]["type"] = "single"
-# trajectory_plan["1"]["correction"]["1"]["reference"] = "401_y"
-# trajectory_plan["1"]["correction"]["1"]["error_tolerance"] = 0.0000005
-# trajectory_plan["1"]["correction"]["1"]["controller_parameters"] = {
-#     "k": 10, "bias": 2}
-# trajectory_plan["1"]["correction"]["1"]["target"] = 0
-# trajectory_plan["1"]["correction"]["1"]["finished"] = False
 
 
 def ramp(beginning_value, ending_value):
@@ -135,8 +72,8 @@ def stop():
     global current_vel_x, current_vel_y, current_vel_angular, current_vel_t_left, current_vel_t_right
     current_vel_x = ramp(current_vel_x, 0)
     current_vel_y = ramp(current_vel_y, 0)
-    current_vel_t_left = ramp(current_vel_t_left, 0)
-    current_vel_t_right = ramp(current_vel_t_right, 0)
+    current_vel_t_left = 0
+    current_vel_t_right = 0
     current_vel_angular = ramp(current_vel_angular, 0)
 
 
@@ -156,7 +93,7 @@ def process_correction(correction):
             # correct z
             if(abs(error) > error_tolerance):
                 rospy.loginfo("correcting 401_x, error ="+str(error))
-                stop()
+                # stop()
                 current_vel_y = ramp(current_vel_y, target_vel)
                 correction["finished"] = False
             else:
@@ -166,7 +103,7 @@ def process_correction(correction):
             # correct x
             if(abs(error) > error_tolerance):
                 rospy.loginfo("correcting 401_z, error ="+str(error))
-                stop()
+                # stop()
                 current_vel_x = ramp(current_vel_x, target_vel)
                 correction["finished"] = False
             else:
@@ -179,7 +116,7 @@ def process_correction(correction):
 
                 # rotation_origin_msg.x = refrences_dict["401_x"]["value"] * 100
                 # rotation_origin_msg.y = refrences_dict["401_z"]["value"] *
-                stop()
+                # stop()
                 current_vel_angular = ramp(current_vel_angular, target_vel)
                 correction["finished"] = False
             else:
@@ -189,7 +126,7 @@ def process_correction(correction):
             # correct roll
             if(abs(error) > error_tolerance):
                 rospy.loginfo("correcting 401_yaw, error ="+str(error))
-                stop()
+                # stop()
                 current_vel_t_left = ramp(current_vel_t_left, target_vel)
                 current_vel_t_right = ramp(current_vel_t_right, target_vel)
                 correction["finished"] = False
@@ -200,7 +137,7 @@ def process_correction(correction):
             # correct roll
             if(abs(error) > error_tolerance):
                 rospy.loginfo("correcting 401_y, error ="+str(error))
-                stop()
+                # stop()
                 current_vel_t_left = ramp(current_vel_t_left, target_vel)
                 current_vel_t_right = ramp(
                     current_vel_t_right, -1 * target_vel)
@@ -225,7 +162,8 @@ def process_correction(correction):
         sum_vel_t_left = 0
         sum_vel_t_right = 0
         correction["finished"] = True
-        for i in range(0, len(correction)-2):
+        for i in range(0, len(correction) - 2):
+            stop()
             process_correction(correction[str(i)])
             # agregating the values
             sum_vel_x = sum_vel_x + current_vel_x
@@ -241,7 +179,6 @@ def process_correction(correction):
         current_vel_angular = sum_vel_angular
         current_vel_t_left = sum_vel_t_left
         current_vel_t_right = sum_vel_t_right
-
     elif correction["type"] == "semi-secuencial":
         for i in range(0, len(correction)-2):
             if correction[str(i)]["finished"] == False:
@@ -421,9 +358,7 @@ def controller():
                 # rospy.loginfo("processing point: " + str(crnt_trgt_pnt_idx) + ", reference NOT found")
                 stop()
     else:  # reached the end of the trajectory
-        current_vel_x = ramp(current_vel_x, 0)
-        current_vel_y = ramp(current_vel_y, 0)
-        current_vel_angular = ramp(current_vel_angular, 0)
+        stop()
 
     refrences_dict_lock = False
 

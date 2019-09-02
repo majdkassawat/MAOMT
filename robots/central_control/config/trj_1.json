@@ -40,34 +40,34 @@
                     "right": "fsr"
                 },
                 "total_pressure_tolerance": 0.00005,
-                "difference_pressure_tolerance": 30,
+                "difference_pressure_tolerance": 0,
                 "controller_parameters": {
-                    "k_turn": -0.015,
+                    "k_turn": -0.01,
                     "bias_turn": 0,
                     "k_linear": 0.025,
                     "bias_linear": 0.01
                 },
-                "target": 150,
-                "finished": false
-            },
-            "2": {
-                "type": "single",
-                "reference": "401_yaw",
-                "error_tolerance": 0.0000005,
-                "controller_parameters": {
-                    "k": 10,
-                    "bias": 2
-                },
-                "target": 3.14,
+                "target": 200,
                 "finished": false
             },
             "1": {
                 "type": "single",
+                "reference": "401_yaw",
+                "error_tolerance": 0.0000005,
+                "controller_parameters": {
+                    "k": 20,
+                    "bias": 0.7
+                },
+                "target": 3.14,
+                "finished": false
+            },
+            "2": {
+                "type": "single",
                 "reference": "401_y",
                 "error_tolerance": 0.0000005,
                 "controller_parameters": {
-                    "k": 10,
-                    "bias": 2
+                    "k": 20,
+                    "bias": 0.7
                 },
                 "target": 0,
                 "finished": false
