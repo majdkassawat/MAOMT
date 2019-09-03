@@ -330,16 +330,14 @@ sub_force_sensor_right = rospy.Subscriber(
     'force_sensor_right', Int64, force_sensor_right_Callback)
 sub_stop_signal = rospy.Subscriber(
     '/stop_signal', Bool, stop_signal_Callback)
-sub_active_remote = rospy.Subscriber(
-    '/active_remote', Bool, active_remote_Callback)
 sub_sync = rospy.Subscriber(
     '/sync', Bool, sync_Callback)
 sub_height_target = rospy.Subscriber(
-    '/height_target', Bool, height_target_Callback)
+    '/height_target', Float64, height_target_Callback)
 sub_min_pressure = rospy.Subscriber(
-    '/min_pressure', Bool, min_pressure_Callback)
+    '/min_pressure', Int64, min_pressure_Callback)
 sub_orientation = rospy.Subscriber(
-    'orientation', Bool, orientation_Callback)
+    'orientation', Float64, orientation_Callback)
 
 
 def controller():
