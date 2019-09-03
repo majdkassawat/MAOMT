@@ -7,7 +7,6 @@ from std_msgs.msg import Float64
 from geometry_msgs.msg import Pose2D
 from std_msgs.msg import Int64
 from std_msgs.msg import Bool
-import rospy
 import math
 import tf
 import time
@@ -292,6 +291,26 @@ def sigint_handler(signum, frame):
     cancel_signal = True
 
 
+def active_remote_Callback(msg):
+    print(msg.data)
+
+
+def sync_Callback(msg):
+    print(msg.data)
+
+
+def height_target_Callback(msg):
+    print(msg.data)
+
+
+def min_pressure_Callback(msg):
+    print(msg.data)
+
+
+def orientation_Callback(msg):
+    print(msg.data)
+
+
 signal.signal(signal.SIGINT, sigint_handler)
 
 rospy.init_node('approach_and_lift_controller', log_level=rospy.INFO)
@@ -310,7 +329,17 @@ sub_force_sensor_left = rospy.Subscriber(
 sub_force_sensor_right = rospy.Subscriber(
     'force_sensor_right', Int64, force_sensor_right_Callback)
 sub_stop_signal = rospy.Subscriber(
-    'stop_signal', Bool, stop_signal_Callback)
+    '/stop_signal', Bool, stop_signal_Callback)
+sub_active_remote = rospy.Subscriber(
+    '/active_remote', Bool, active_remote_Callback)
+sub_sync = rospy.Subscriber(
+    '/sync', Bool, sync_Callback)
+sub_height_target = rospy.Subscriber(
+    '/height_target', Bool, height_target_Callback)
+sub_min_pressure = rospy.Subscriber(
+    '/min_pressure', Bool, min_pressure_Callback)
+sub_orientation = rospy.Subscriber(
+    'orientation', Bool, orientation_Callback)
 
 
 def controller():
