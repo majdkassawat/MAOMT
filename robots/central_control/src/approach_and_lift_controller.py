@@ -335,7 +335,7 @@ sub_sync = rospy.Subscriber(
 sub_height_target = rospy.Subscriber(
     '/height_target', Float64, height_target_Callback)
 sub_min_pressure = rospy.Subscriber(
-    '/min_pressure', Int64, min_pressure_Callback)
+    '/min_pressure_delta', Int64, min_pressure_Callback)
 sub_orientation = rospy.Subscriber(
     'orientation', Float64, orientation_Callback)
 
