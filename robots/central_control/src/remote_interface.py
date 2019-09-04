@@ -121,10 +121,12 @@ def remote_interface():
     sync_msg.data = sync
     # Process control mode
     if mode == "control":
-        print ("CONTROL")
+        print("CONTROL")
+        # Process height
         height_from_remote = (interp1d([2000,1000],[min_height,max_height]))
         height = float(height_from_remote(ch3))
         height_msg.data = height
+        
         # print(" ch1: " + str(ch1)+" ch2: " + str(ch2)+" ch3: " + str(ch3)+" ch4: " + str(ch4))
     # if mode == "lock":
     #     print ("LOCKED")
