@@ -20,7 +20,10 @@ import pprint
 
 cancel_signal = False
 stop_signal = False
-
+remote_control_activated = False
+min_pressure_delta = 0
+robot_orientation = 0
+height = 0
 # Frequency
 freq = 40
 # Dictionary visible markers
@@ -42,16 +45,17 @@ t_right_msg = Float64()
 rotation_origin_msg = Pose2D()
 rotation_origin_msg.theta = 60
 
-filtering_value = 300
-
 trajectory_plan = {}
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
 config_dir = parent_dir + "/config/"
 # print(config_dir)
-with open(config_dir + 'trj_1.json') as json_file:
-    trajectory_plan = json.load(json_file)
+with open(config_dir + 'trj_remote.json') as json_file:
+    config_file = json.load(json_file)
+    trajectory_plan = config_file["trajectory"]
+    remote_control_activated = config_file["remote_control_activated"]
+    freq = config_file["freq"]
 
 
 def ramp(beginning_value, ending_value):
@@ -77,7 +81,8 @@ def stop():
 
 
 def process_correction(correction):
-    global current_vel_x, current_vel_y, current_vel_z, current_vel_angular, current_vel_t_left, current_vel_t_right, refrences_dict, rotation_origin
+    global current_vel_x, current_vel_y, current_vel_z, current_vel_angular, current_vel_t_left, current_vel_t_right
+    global refrences_dict, rotation_origin, remote_control_activated, robot_orientation, height
     rotation_origin_msg.x = 0
     rotation_origin_msg.y = 0
     if correction["type"] == "single":
@@ -91,7 +96,7 @@ def process_correction(correction):
         if correction["reference"] == "401_x":
             # correct z
             if(abs(error) > error_tolerance):
-                rospy.loginfo("correcting 401_x, error ="+str(error))
+                # rospy.loginfo("correcting 401_x, error ="+str(error))
                 # stop()
                 current_vel_y = ramp(current_vel_y, target_vel)
                 correction["finished"] = False
@@ -101,7 +106,7 @@ def process_correction(correction):
         elif correction["reference"] == "401_z":
             # correct x
             if(abs(error) > error_tolerance):
-                rospy.loginfo("correcting 401_z, error ="+str(error))
+                # rospy.loginfo("correcting 401_z, error ="+str(error))
                 # stop()
                 current_vel_x = ramp(current_vel_x, target_vel)
                 correction["finished"] = False
@@ -109,9 +114,9 @@ def process_correction(correction):
                 stop()
                 correction["finished"] = True
         elif correction["reference"] == "401_pitch":
-            # correct roll
+            # correct pitch
             if(abs(error) > error_tolerance):
-                rospy.loginfo("correcting 401_pitch, error ="+str(error))
+                # rospy.loginfo("correcting 401_pitch, error ="+str(error))
 
                 # rotation_origin_msg.x = refrences_dict["401_x"]["value"] * 100
                 # rotation_origin_msg.y = refrences_dict["401_z"]["value"] *
@@ -122,9 +127,9 @@ def process_correction(correction):
                 stop()
                 correction["finished"] = True
         elif correction["reference"] == "401_yaw":
-            # correct roll
+            # correct yaw
             if(abs(error) > error_tolerance):
-                rospy.loginfo("correcting 401_yaw, error ="+str(error))
+                # rospy.loginfo("correcting 401_yaw, error ="+str(error))
                 # stop()
                 current_vel_t_left = ramp(current_vel_t_left, target_vel)
                 current_vel_t_right = ramp(current_vel_t_right, target_vel)
@@ -133,9 +138,16 @@ def process_correction(correction):
                 stop()
                 correction["finished"] = True
         elif correction["reference"] == "401_y":
-            # correct roll
+            if remote_control_activated == True:
+                error = refrences_dict[correction["reference"]
+                                       ]["value"]-height
+                k = correction["controller_parameters"]["k"]
+                bias = correction["controller_parameters"]["bias"]
+                error_tolerance = correction["error_tolerance"]
+                target_vel = (error) * k + (error)/abs(error) * bias
+            # correct height
             if(abs(error) > error_tolerance):
-                rospy.loginfo("correcting 401_y, error ="+str(error))
+                # rospy.loginfo("correcting 401_y, error ="+str(error))
                 # stop()
                 current_vel_t_left = ramp(current_vel_t_left, target_vel)
                 current_vel_t_right = ramp(
@@ -196,11 +208,22 @@ def process_correction(correction):
         fl = refrences_dict[correction["reference"]["left"]]["value"]
         fr = refrences_dict[correction["reference"]["right"]]["value"]
         target = correction["target"]
-        difference_error = fl - fr
+        target_plus_delta = target
+        if remote_control_activated == True:
+            if robot_orientation == 180 and min_pressure_delta > 0:
+                target_plus_delta = target + abs(min_pressure_delta)
+            elif robot_orientation == 180 and min_pressure_delta < 0:
+                target_plus_delta = target - abs(min_pressure_delta)
+            elif robot_orientation == 0 and min_pressure_delta < 0:
+                target_plus_delta = target + abs(min_pressure_delta)
+            elif robot_orientation == 0 and min_pressure_delta > 0:
+                target_plus_delta = target - abs(min_pressure_delta)
 
-        if (fl < target and fr < target) or (fl > target and fr > target):
+        difference_error = fl - fr
+        # Adding delta to target in case of remote control activated (depends on orientation)
+        if (fl < target_plus_delta and fr < target_plus_delta) or (fl > target_plus_delta and fr > target_plus_delta):
             # go forward or backward
-            average_error = target - 0.5 * (fl+fr)
+            average_error = target_plus_delta - 0.5 * (fl+fr)
             target_vel = (average_error) * k_linear + \
                 (float(average_error)/abs(average_error)) * bias_linear
             current_vel_x = ramp(current_vel_x, target_vel)
@@ -214,7 +237,15 @@ def process_correction(correction):
             # stop
             current_vel_x = ramp(current_vel_x, 0)
             current_vel_angular = ramp(current_vel_angular, 0)
-
+    elif correction["type"] == "single_boolean":
+        if correction["reference"] == "sync":
+            target = correction["target"]
+            # print("target:" + str(target) + "remote:" +
+            #       str(refrences_dict[correction["reference"]]["value"]))
+            if target == refrences_dict[correction["reference"]]["value"]:
+                correction["finished"] = True
+            else:
+                correction["finished"] = False
     return correction["finished"]
 
 
@@ -260,24 +291,28 @@ def MarkersCallback(msg):
 
 
 def force_sensor_left_Callback(msg):
-    global refrences_dict, filtering_value
-    if "fsl" not in refrences_dict:
-        refrences_dict["fsl"] = {"type": "force_sensor"}
-        refrences_dict["fsl"]["value"] = msg.data
-    else:
-        refrences_dict["fsl"] = {"type": "force_sensor"}
-        refrences_dict["fsl"]["value"] = msg.data
+    global refrences_dict
+    refrences_dict["fsl"] = {"type": "force_sensor"}
+    refrences_dict["fsl"]["value"] = msg.data
+    # if "fsl" not in refrences_dict:
+    #     refrences_dict["fsl"] = {"type": "force_sensor"}
+    #     refrences_dict["fsl"]["value"] = msg.data
+    # else:
+    #     refrences_dict["fsl"] = {"type": "force_sensor"}
+    #     refrences_dict["fsl"]["value"] = msg.data
     # print(refrences_dict["fsl"]["value"])
 
 
 def force_sensor_right_Callback(msg):
-    global refrences_dict, filtering_value
-    if "fsr" not in refrences_dict:
-        refrences_dict["fsr"] = {"type": "force_sensor"}
-        refrences_dict["fsr"]["value"] = msg.data
-    else:
-        refrences_dict["fsr"] = {"type": "force_sensor"}
-        refrences_dict["fsr"]["value"] = msg.data
+    global refrences_dict
+    refrences_dict["fsr"] = {"type": "force_sensor"}
+    refrences_dict["fsr"]["value"] = msg.data
+    # if "fsr" not in refrences_dict:
+    #     refrences_dict["fsr"] = {"type": "force_sensor"}
+    #     refrences_dict["fsr"]["value"] = msg.data
+    # else:
+    #     refrences_dict["fsr"] = {"type": "force_sensor"}
+    #     refrences_dict["fsr"]["value"] = msg.data
     # print(refrences_dict["fsr"]["value"])
 
 
@@ -291,24 +326,28 @@ def sigint_handler(signum, frame):
     cancel_signal = True
 
 
-def active_remote_Callback(msg):
-    print(msg.data)
-
-
 def sync_Callback(msg):
-    print(msg.data)
+    global refrences_dict
+    refrences_dict["sync"] = {"type": "synchronization"}
+    refrences_dict["sync"]["value"] = msg.data
 
 
 def height_target_Callback(msg):
-    print(msg.data)
+    global height
+    height = msg.data
+    # print(msg.data)
 
 
-def min_pressure_Callback(msg):
-    print(msg.data)
+def min_pressure_delta_Callback(msg):
+    global min_pressure_delta
+    min_pressure_delta = msg.data
+    # print(msg.data)
 
 
 def orientation_Callback(msg):
-    print(msg.data)
+    global robot_orientation
+    robot_orientation = msg.data
+    # print(msg.data)
 
 
 signal.signal(signal.SIGINT, sigint_handler)
@@ -335,7 +374,7 @@ sub_sync = rospy.Subscriber(
 sub_height_target = rospy.Subscriber(
     '/height_target', Float64, height_target_Callback)
 sub_min_pressure = rospy.Subscriber(
-    '/min_pressure_delta', Int64, min_pressure_Callback)
+    '/min_pressure_delta', Int64, min_pressure_delta_Callback)
 sub_orientation = rospy.Subscriber(
     'orientation', Float64, orientation_Callback)
 

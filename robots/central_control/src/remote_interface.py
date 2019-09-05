@@ -14,8 +14,8 @@ freq = 40
 mode = "stop"
 sync = False
 height = 0
-min_height = -70
-max_height = 70
+min_height = -0.07
+max_height = 0.07
 min_delta_pressure = -150
 max_delta_pressure = 150
 
