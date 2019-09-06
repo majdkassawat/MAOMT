@@ -1,0 +1,3 @@
+<launch>
+    <node name="virtual_compass" pkg="central_control" type="virtual_compass.py" output="screen"/>
+</launch>

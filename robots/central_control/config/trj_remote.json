@@ -1,0 +1,111 @@
+{
+    "remote_control_activated": true,
+    "freq": 40,
+    "trajectory": {
+        "0": {
+            "reached": false,
+            "correction": {
+                "type": "parallel",
+                "finished": false,
+                "0": {
+                    "type": "single",
+                    "reference": "401_pitch",
+                    "error_tolerance": 0.017,
+                    "controller_parameters": {
+                        "k": 15,
+                        "bias": 0.5
+                    },
+                    "target": 0,
+                    "finished": false
+                },
+                "1": {
+                    "type": "single",
+                    "reference": "401_x",
+                    "error_tolerance": 0.002,
+                    "controller_parameters": {
+                        "k": -8,
+                        "bias": -1.5
+                    },
+                    "target": 0,
+                    "finished": false
+                },
+                "2": {
+                    "type": "single",
+                    "reference": "401_z",
+                    "error_tolerance": 0.005,
+                    "controller_parameters": {
+                        "k": 15,
+                        "bias": 1
+                    },
+                    "target": 0.17,
+                    "finished": false
+                }
+            }
+        },
+        "1": {
+            "reached": false,
+            "correction": {
+                "type": "secuencial",
+                "finished": false,
+                "0": {
+                    "type": "single_boolean",
+                    "reference": "sync",
+                    "target": true,
+                    "finished": false
+                },
+                "1": {
+                    "type": "single_boolean",
+                    "reference": "sync",
+                    "target": false,
+                    "finished": false
+                }
+            }
+        },
+        "2": {
+            "reached": false,
+            "correction": {
+                "type": "parallel",
+                "finished": false,
+                "0": {
+                    "type": "force_coupled",
+                    "reference": {
+                        "left": "fsl",
+                        "right": "fsr"
+                    },
+                    "total_pressure_tolerance": 0.00005,
+                    "difference_pressure_tolerance": 0,
+                    "controller_parameters": {
+                        "k_turn": -0.012,
+                        "bias_turn": 0,
+                        "k_linear": 0.027,
+                        "bias_linear": 0.015
+                    },
+                    "target": 170,
+                    "finished": false
+                },
+                "1": {
+                    "type": "single",
+                    "reference": "401_y",
+                    "error_tolerance": 0.005,
+                    "controller_parameters": {
+                        "k": 20,
+                        "bias": 0.7
+                    },
+                    "target": 0,
+                    "finished": false
+                },
+                "2": {
+                    "type": "single",
+                    "reference": "401_yaw",
+                    "error_tolerance": 0.017,
+                    "controller_parameters": {
+                        "k": 20,
+                        "bias": 0.7
+                    },
+                    "target": 3.14,
+                    "finished": false
+                }
+            }
+        }
+    }
+}
