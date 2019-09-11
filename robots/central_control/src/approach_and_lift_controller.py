@@ -26,6 +26,8 @@ robot_orientation = 0
 height = 0
 # Frequency
 freq = 40
+# Height offset to be set in calibrate
+height_offset = 0
 # Dictionary visible markers
 refrences_dict = {}
 refrences_dict_lock = False
@@ -82,7 +84,7 @@ def stop():
 
 def process_correction(correction):
     global current_vel_x, current_vel_y, current_vel_z, current_vel_angular, current_vel_t_left, current_vel_t_right
-    global refrences_dict, rotation_origin, remote_control_activated, robot_orientation, height
+    global refrences_dict, rotation_origin, remote_control_activated, robot_orientation, height, height_offset
     rotation_origin_msg.x = 0
     rotation_origin_msg.y = 0
     if correction["type"] == "single":
@@ -246,6 +248,10 @@ def process_correction(correction):
                 correction["finished"] = True
             else:
                 correction["finished"] = False
+    elif correction["type"] == "calibrate_y":
+        height_offset = refrences_dict["401_y"]["value"]
+        correction["finished"] = True
+
     return correction["finished"]
 
 
@@ -278,7 +284,8 @@ def MarkersCallback(msg):
         if yaw < 0:
             yaw = math.pi * 2 - abs(yaw)
         refrences_dict[str(marker.id)+"_x"] = {"type": "marker", "value": x}
-        refrences_dict[str(marker.id)+"_y"] = {"type": "marker", "value": y}
+        refrences_dict[str(
+            marker.id)+"_y"] = {"type": "marker", "value": y - height_offset}
         refrences_dict[str(marker.id)+"_z"] = {"type": "marker", "value": z}
         refrences_dict[str(marker.id) +
                        "_roll"] = {"type": "marker", "value": roll}

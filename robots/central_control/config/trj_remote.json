@@ -32,12 +32,12 @@
                 "2": {
                     "type": "single",
                     "reference": "401_z",
-                    "error_tolerance": 0.005,
+                    "error_tolerance": 0.001,
                     "controller_parameters": {
                         "k": 15,
                         "bias": 1
                     },
-                    "target": 0.17,
+                    "target": 0.167,
                     "finished": false
                 }
             }
@@ -61,7 +61,14 @@
                 }
             }
         },
-        "2": {
+        "2":{
+            "reached": false,
+            "correction":{
+                "type":"calibrate_y",
+                "finished":false
+            }
+        },
+        "3": {
             "reached": false,
             "correction": {
                 "type": "parallel",
@@ -72,8 +79,8 @@
                         "left": "fsl",
                         "right": "fsr"
                     },
-                    "total_pressure_tolerance": 0.00005,
-                    "difference_pressure_tolerance": 0,
+                    "total_pressure_tolerance": 5,
+                    "difference_pressure_tolerance": 5,
                     "controller_parameters": {
                         "k_turn": -0.012,
                         "bias_turn": 0,
@@ -103,6 +110,12 @@
                         "bias": 0.7
                     },
                     "target": 3.14,
+                    "finished": false
+                },
+                "3": {
+                    "type": "single_boolean",
+                    "reference": "sync",
+                    "target": true,
                     "finished": false
                 }
             }
