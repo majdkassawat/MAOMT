@@ -63,14 +63,15 @@ force_sensor_left_pub = rospy.Publisher('force_sensor_left', Int64, queue_size=1
 
 force_sensor_left_msg = Int64()
 
-r = rospy.Rate(10)
+r = rospy.Rate(40)
 current_sample = 0
 previous_sample = 0
 last_good_sample = 0
 output = 0
+alpha = 0.1
 while not rospy.is_shutdown():
 
-    val_left = hx_left.get_weight(1)
+    val_left = hx_left.get_weight(5)
 
     current_sample = val_left 
 
@@ -86,7 +87,8 @@ while not rospy.is_shutdown():
         else: 
             last_good_sample = current_sample
             output = last_good_sample
-    previous_sample = current_sample
+    output = output * alpha + (1 - alpha) * previous_sample
+    previous_sample = output
 
     force_sensor_left_msg.data=output
 

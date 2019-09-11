@@ -63,15 +63,16 @@ force_sensor_right_pub = rospy.Publisher('force_sensor_right', Int64, queue_size
 force_sensor_right_msg = Int64()
 
 
-r = rospy.Rate(10)
+r = rospy.Rate(40)
 
 current_sample = 0
 previous_sample = 0
 last_good_sample = 0
 output = 0
+alpha = 0.1
 while not rospy.is_shutdown():
 
-    val_right = hx_right.get_weight(1)
+    val_right = hx_right.get_weight(5)
 
     current_sample = val_right 
 
@@ -87,7 +88,8 @@ while not rospy.is_shutdown():
         else: 
             last_good_sample = current_sample
             output = last_good_sample
-    previous_sample = current_sample
+    output = output * alpha + (1 - alpha) * previous_sample 
+    previous_sample = output
 
     force_sensor_right_msg.data=output
     force_sensor_right_pub.publish(force_sensor_right_msg)
