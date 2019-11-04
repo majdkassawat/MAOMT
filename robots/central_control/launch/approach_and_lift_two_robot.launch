@@ -3,9 +3,9 @@
 
     <include file="$(find central_control)/launch/remote_interface.launch" />
 
-    <group ns="robot1">
+    <!-- <group ns="robot1">
         <node name="approach_and_lift_two_robot" pkg="central_control" type="approach_and_lift_controller.py" output="screen"/>
-    </group> 
+    </group>  -->
     <group ns="robot2">
         <node name="approach_and_lift_two_robot" pkg="central_control" type="approach_and_lift_controller.py" output="screen"/>
     </group>

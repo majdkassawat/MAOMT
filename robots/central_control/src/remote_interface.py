@@ -131,14 +131,14 @@ def remote_interface():
     # Process stop signal
     if mode == "stop":
         stop_msg.data = True
-        print ("STOP")
+        # print ("STOP")
     else:
         stop_msg.data = False
     # Process sync signal
     sync_msg.data = sync
     # Process control mode
     if mode == "control":
-        print("CONTROL")
+        # print("CONTROL")
         # Process height
         height_from_remote = (interp1d([1000, 2000], [min_height, max_height]))
         height = float(height_from_remote(ch3))
@@ -149,7 +149,8 @@ def remote_interface():
         min_pressure_delta = int(min_pressure_delta_from_remote(ch2))
         min_pressure_delta_msg.data = min_pressure_delta
     if mode == "lock":
-        print ("LOCKED")
+        # print ("LOCKED")
+        x = 2+1
     # Publish all messages
     stop_pub.publish(stop_msg)
     sync_pub.publish(sync_msg)

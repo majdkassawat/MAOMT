@@ -18,6 +18,10 @@ import os
 import pprint
 
 
+
+            
+
+
 cancel_signal = False
 stop_signal = False
 remote_control_activated = False
@@ -225,17 +229,20 @@ def process_correction(correction):
         # Adding delta to target in case of remote control activated (depends on orientation)
         if (fl < target_plus_delta and fr < target_plus_delta) or (fl > target_plus_delta and fr > target_plus_delta):
             # go forward or backward
+            print("correcting linear")
             average_error = target_plus_delta - 0.5 * (fl+fr)
             target_vel = (average_error) * k_linear + \
                 (float(average_error)/abs(average_error)) * bias_linear
             current_vel_x = ramp(current_vel_x, target_vel)
             current_vel_angular = ramp(current_vel_angular, 0)
         elif abs(difference_error) > correction["difference_pressure_tolerance"]:
+            print("correcting difference")
             target_vel = (difference_error) * k_turn + \
                 (float(difference_error)/abs(difference_error)) * bias_turn
             current_vel_x = ramp(current_vel_x, 0)
             current_vel_angular = ramp(current_vel_angular, target_vel)
         else:
+            print("foces are stable .. nothing to correct")
             # stop
             current_vel_x = ramp(current_vel_x, 0)
             current_vel_angular = ramp(current_vel_angular, 0)
@@ -416,6 +423,7 @@ def controller():
             fill_required_reference_list(current_point["correction"])
 
             def check_all_references_available():
+                print(required_reference_list)
                 for required_ref in required_reference_list:
                     if required_ref not in refrences_dict:
                         return False

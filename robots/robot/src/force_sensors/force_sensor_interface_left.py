@@ -82,7 +82,7 @@ while not rospy.is_shutdown():
         output = last_good_sample
     else:
         diff = abs(current_sample - previous_sample)
-        if diff > 100:
+        if diff > 300:
             output = last_good_sample
         else: 
             last_good_sample = current_sample
