@@ -13,22 +13,33 @@ from dynamixel_driver import DynamixelDriver
 # wheel3_controller_msg = Float64()
 
 rotation_origin_msg = Pose2D()
+speed_conversion_const = 0.111
 
 
 def cmdTwistVelCallback(velocity_msg):
     global rotation_origin_msg
     wheel1_vel, wheel2_vel, wheel3_vel = omnidirectional_driver(
         velocity_msg, rotation_origin_msg)
+
+    print(int(wheel1_vel/speed_conversion_const),
+          int(wheel2_vel/speed_conversion_const), int(wheel3_vel/speed_conversion_const))
+    dxl_driver.set_dxl_speed(1, int(wheel1_vel/speed_conversion_const))
+    dxl_driver.set_dxl_speed(2, int(wheel2_vel/speed_conversion_const))
+    dxl_driver.set_dxl_speed(3, int(wheel3_vel/speed_conversion_const))
+
     if wheel1_vel == 0:
         dxl_driver.set_dxl_torque_enable(1, False)
+    else:
+        dxl_driver.set_dxl_torque_enable(1, True)
     if wheel2_vel == 0:
         dxl_driver.set_dxl_torque_enable(2, False)
+    else:
+        dxl_driver.set_dxl_torque_enable(2, True)
     if wheel3_vel == 0:
         dxl_driver.set_dxl_torque_enable(3, False)
-    
-    dxl_driver.set_dxl_torque_enable(1, True)
-    dxl_driver.set_dxl_torque_enable(2, True)
-    dxl_driver.set_dxl_torque_enable(3, True)
+    else:
+        dxl_driver.set_dxl_torque_enable(3, True)
+
     # wheel1_controller_msg.data = wheel1_vel
     # wheel2_controller_msg.data = wheel2_vel
     # wheel3_controller_msg.data = wheel3_vel
@@ -45,12 +56,24 @@ def rotationOriginCallback(msg):
 
 
 def cmdTractionLeftVelCallback(msg):
+    traction_wheel_vel = msg.data
+    if traction_wheel_vel == 0:
+        dxl_driver.set_dxl_torque_enable(5, False)
+    else:
+        dxl_driver.set_dxl_torque_enable(5, True)
+    dxl_driver.set_dxl_speed(5, int(traction_wheel_vel/speed_conversion_const))
     # traction_wheel_left_controller_msg.data = msg.data
     # traction_wheel_left_controller_pub.publish(
     #     traction_wheel_left_controller_msg)
 
 
 def cmdTractionRightVelCallback(msg):
+    traction_wheel_vel = msg.data
+    if traction_wheel_vel == 0:
+        dxl_driver.set_dxl_torque_enable(4, False)
+    else:
+        dxl_driver.set_dxl_torque_enable(4, True)
+    dxl_driver.set_dxl_speed(4, int(traction_wheel_vel/speed_conversion_const))
     # traction_wheel_right_controller_msg.data = msg.data
     # traction_wheel_right_controller_pub.publish(
     #     traction_wheel_right_controller_msg)
@@ -90,4 +113,3 @@ if rospy.is_shutdown():
     dxl_driver.set_dxl_torque_enable(3, False)
     dxl_driver.close_port()
 rospy.spin()
-
