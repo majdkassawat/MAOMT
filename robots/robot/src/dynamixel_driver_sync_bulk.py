@@ -57,6 +57,18 @@ class DynamixelDriver:
         # Get methods and members of Protocol1PacketHandler or Protocol2PacketHandler
         self.packetHandler = PacketHandler(PROTOCOL_VERSION)
 
+        # Initialize GroupBulkWrite
+        self.groupBulkWriter = GroupBulkWrite(
+            self.portHandler, self.packetHandler)
+        # Initialize GroupBulkWrite parameters (motors and adresses)
+        data = [DXL_LOBYTE(DXL_LOWORD(0))]
+        print(data)
+        res = self.groupBulkWriter.addParam(
+            1, ADDR_A12_TORQUE_ENABLE, 1, data)
+        print(res)
+        # self.groupBulkWriter.addParam(2, ADDR_A12_LED, 1, 1)
+        # self.groupBulkWriter.addParam(3, ADDR_A12_LED, 1, 1)
+
     def open_port(self):
         # Open port
         if self.portHandler.openPort():
@@ -80,6 +92,11 @@ class DynamixelDriver:
         # Close port
         self.portHandler.closePort()
 
+    def send_command(self):
+        print("sending command")
+        print(self.groupBulkWriter.txPacket())
+        print("command sent")
+
     def set_dxl_led(self, dxl_id, led_command):
         dxl_comm_result, dxl_error = self.packetHandler.write1ByteTxRx(
             self.portHandler, dxl_id, ADDR_A12_LED, led_command)
@@ -93,9 +110,9 @@ class DynamixelDriver:
     def set_dxl_speed(self, dxl_id, speed):
         if speed > 1023 or speed < -1023:
             print("speed value unaccepted")
-            return 
+            return
         if speed < 0:
-            #set negative direction
+            # set negative direction
             speed = abs(speed) + 1024
         dxl_comm_result, dxl_error = self.packetHandler.write2ByteTxRx(
             self.portHandler, dxl_id, ADDR_A12_MOVING_SPEED, abs(speed))
@@ -119,91 +136,3 @@ class DynamixelDriver:
             print("%s" % self.packetHandler.getRxPacketError(dxl_error))
         # else:
         #     print("Torque enable set")
-
-
-# Enable Dynamixel Torque
-# dxl_comm_result, dxl_error = packetHandler.write1ByteTxRx(
-#     portHandler, DXL_ID, ADDR_MX_TORQUE_ENABLE, TORQUE_ENABLE)
-# if dxl_comm_result != COMM_SUCCESS:
-#     print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
-# elif dxl_error != 0:
-#     print("%s" % packetHandler.getRxPacketError(dxl_error))
-# else:
-#     print("Dynamixel has been successfully connected")
-
-# # Set torque limit
-# dxl_comm_result, dxl_error = packetHandler.write4ByteTxRx(
-#     portHandler, DXL_ID, ADDR_MX_TORQUE_LIMIT, TORQUE_LIMIT)
-# if dxl_comm_result != COMM_SUCCESS:
-#     print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
-# elif dxl_error != 0:
-#     print(dxl_error)
-#     print("%s" % packetHandler.getRxPacketError(dxl_error))
-# else:
-#     print("Torque limit has been set")
-
-# dxl_comm_result, dxl_error = packetHandler.write4ByteTxRx(
-#     portHandler, DXL_ID, ADDR_MX_LED, 1)
-# if dxl_comm_result != COMM_SUCCESS:
-#     print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
-# elif dxl_error != 0:
-#     print(dxl_error)
-#     print("%s" % packetHandler.getRxPacketError(dxl_error))
-# else:
-#     print("LED has been set")
-
-# while 1:
-# dxl_comm_result, dxl_error = packetHandler.write2ByteTxRx(
-#     portHandler, DXL_ID, ADDR_MX_MOVING_SPEED, SPEED)
-# if dxl_comm_result != COMM_SUCCESS:
-#     print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
-# elif dxl_error != 0:
-#     print("%s" % packetHandler.getRxPacketError(dxl_error))
-# else:
-#     print("Speed sent")
-
-# while 1:
-# print("Press any key to continue! (or press ESC to quit!)")
-# if getch() == chr(0x1b):
-#     break
-
-# # Write goal position
-# dxl_comm_result, dxl_error = packetHandler.write4ByteTxRx(
-#     portHandler, DXL_ID, ADDR_MX_GOAL_POSITION, dxl_goal_position[index])
-# if dxl_comm_result != COMM_SUCCESS:
-#     print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
-# elif dxl_error != 0:
-#     print("%s" % packetHandler.getRxPacketError(dxl_error))
-
-#  while 1:
-#      # Read present position
-#      dxl_present_position, dxl_comm_result, dxl_error = packetHandler.read4ByteTxRx(
-#          portHandler, DXL_ID, ADDR_MX_PRESENT_POSITION)
-#      if dxl_comm_result != COMM_SUCCESS:
-#          print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
-#      elif dxl_error != 0:
-#          print("%s" % packetHandler.getRxPacketError(dxl_error))
-
-#      print("[ID:%03d] GoalPos:%03d  PresPos:%03d" %
-#            (DXL_ID, dxl_goal_position[index], dxl_present_position))
-
-#      if not abs(dxl_goal_position[index] - dxl_present_position) > DXL_MOVING_STATUS_THRESHOLD:
-#          break
-
-# # Change goal position
-# if index == 0:
-#     index = 1
-# else:
-#     index = 0
-
-
-# Disable Dynamixel Torque
-# dxl_comm_result, dxl_error = packetHandler.write1ByteTxRx(
-#     portHandler, DXL_ID, ADDR_MX_TORQUE_ENABLE, TORQUE_DISABLE)
-# if dxl_comm_result != COMM_SUCCESS:
-#     print("%s" % packetHandler.getTxRxResult(dxl_comm_result))
-# elif dxl_error != 0:
-#     print("%s" % packetHandler.getRxPacketError(dxl_error))
-
-# # Close port
-# portHandler.closePort()
