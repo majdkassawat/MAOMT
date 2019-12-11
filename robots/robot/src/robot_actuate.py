@@ -45,7 +45,7 @@ def cmdTractionLeftVelCallback(msg):
         dxl_driver.set_dxl_torque_enable(5, False)
     else:
         dxl_driver.set_dxl_torque_enable(5, True)
-    dxl_driver.set_dxl_speed(5, int(traction_wheel_vel/speed_conversion_const))
+        dxl_driver.set_dxl_speed(5, int(traction_wheel_vel/speed_conversion_const))
 
 
 def cmdTractionRightVelCallback(msg):
@@ -54,12 +54,12 @@ def cmdTractionRightVelCallback(msg):
         dxl_driver.set_dxl_torque_enable(4, False)
     else:
         dxl_driver.set_dxl_torque_enable(4, True)
-    dxl_driver.set_dxl_speed(4, int(traction_wheel_vel/speed_conversion_const))
+        dxl_driver.set_dxl_speed(4, int(traction_wheel_vel/speed_conversion_const))
 
 
 dxl_driver = DynamixelDriver("/dev/ttyUSB0")
 dxl_driver.open_port()
-rospy.init_node('robot_actuate_node', log_level=rospy.DEBUG)
+rospy.init_node('robot_actuate_node')
 
 
 command_twist_vel_sub = rospy.Subscriber('cmd_vel', Twist, cmdTwistVelCallback)
@@ -80,4 +80,6 @@ if rospy.is_shutdown():
     dxl_driver.set_dxl_torque_enable(1, False)
     dxl_driver.set_dxl_torque_enable(2, False)
     dxl_driver.set_dxl_torque_enable(3, False)
+    dxl_driver.set_dxl_torque_enable(4, False)
+    dxl_driver.set_dxl_torque_enable(5, False)
     dxl_driver.close_port()

@@ -81,6 +81,16 @@ class DynamixelDriver:
         if dxl_addparam_result != True:
             print("[ID:%03d] groupSyncWrite addparam failed" % 3)
             quit()
+        dxl_addparam_result = self.speedGroupSyncWrite.addParam(
+            4, param_speed)
+        if dxl_addparam_result != True:
+            print("[ID:%03d] groupSyncWrite addparam failed" % 4)
+            quit()
+        dxl_addparam_result = self.speedGroupSyncWrite.addParam(
+            5, param_speed)
+        if dxl_addparam_result != True:
+            print("[ID:%03d] groupSyncWrite addparam failed" % 5)
+            quit()
 
     def open_port(self):
         # Open port
