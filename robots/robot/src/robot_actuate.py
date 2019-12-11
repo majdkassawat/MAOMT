@@ -18,9 +18,12 @@ def cmdTwistVelCallback(velocity_msg):
 
     print(int(wheel1_vel/speed_conversion_const),
           int(wheel2_vel/speed_conversion_const), int(wheel3_vel/speed_conversion_const))
-    dxl_driver.set_dxl_speed(1, int(wheel1_vel/speed_conversion_const))
-    dxl_driver.set_dxl_speed(2, int(wheel2_vel/speed_conversion_const))
-    dxl_driver.set_dxl_speed(3, int(wheel3_vel/speed_conversion_const))
+    if int(wheel1_vel/speed_conversion_const) > 1023 or int(wheel1_vel/speed_conversion_const) < -1023 or int(wheel2_vel/speed_conversion_const) > 1023 or int(wheel2_vel/speed_conversion_const) < -1023 or int(wheel3_vel/speed_conversion_const) > 1023 or int(wheel3_vel/speed_conversion_const) < -1023:
+        print("overall speed vector cannot be reached, command not sent")
+    else:
+        dxl_driver.set_dxl_speed(1, int(wheel1_vel/speed_conversion_const))
+        dxl_driver.set_dxl_speed(2, int(wheel2_vel/speed_conversion_const))
+        dxl_driver.set_dxl_speed(3, int(wheel3_vel/speed_conversion_const))
 
     if wheel1_vel == 0:
         dxl_driver.set_dxl_torque_enable(1, False)
@@ -29,10 +32,6 @@ def cmdTwistVelCallback(velocity_msg):
     if wheel3_vel == 0:
         dxl_driver.set_dxl_torque_enable(3, False)
     dxl_driver.send_command()
-    
-
-    
-
 
 def rotationOriginCallback(msg):
     global rotation_origin_msg
@@ -45,7 +44,8 @@ def cmdTractionLeftVelCallback(msg):
         dxl_driver.set_dxl_torque_enable(5, False)
     else:
         dxl_driver.set_dxl_torque_enable(5, True)
-        dxl_driver.set_dxl_speed(5, int(traction_wheel_vel/speed_conversion_const))
+        dxl_driver.set_dxl_speed(
+            5, int(traction_wheel_vel/speed_conversion_const))
 
 
 def cmdTractionRightVelCallback(msg):
@@ -54,7 +54,8 @@ def cmdTractionRightVelCallback(msg):
         dxl_driver.set_dxl_torque_enable(4, False)
     else:
         dxl_driver.set_dxl_torque_enable(4, True)
-        dxl_driver.set_dxl_speed(4, int(traction_wheel_vel/speed_conversion_const))
+        dxl_driver.set_dxl_speed(
+            4, int(traction_wheel_vel/speed_conversion_const))
 
 
 dxl_driver = DynamixelDriver("/dev/ttyUSB0")
