@@ -1,7 +1,7 @@
 <!-- -*- mode: XML -*- -->
 
 <launch>
-    <node name="robot_actuate" pkg="robot" type="robot_actuate.py" output="screen" />
+        <node name="robot_actuate" pkg="robot" type="robot_actuate.py" output="screen" />
 </launch>
 
    

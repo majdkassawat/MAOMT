@@ -1,6 +1,6 @@
 {
     "remote_control_activated": true,
-    "freq": 40,
+    "freq": 30,
     "trajectory": {
         "0": {
             "reached": false,
@@ -12,8 +12,8 @@
                     "reference": "401_pitch",
                     "error_tolerance": 0.017,
                     "controller_parameters": {
-                        "k": 15.0,
-                        "bias": 0.6
+                        "k": 30,
+                        "bias": 10
                     },
                     "target": 0,
                     "finished": false
@@ -23,8 +23,8 @@
                     "reference": "401_x",
                     "error_tolerance": 0.005,
                     "controller_parameters": {
-                        "k": -8.0,
-                        "bias": -1.6
+                        "k": -20,
+                        "bias": -15
                     },
                     "target": 0,
                     "finished": false
@@ -34,8 +34,8 @@
                     "reference": "401_z",
                     "error_tolerance": 0.005,
                     "controller_parameters": {
-                        "k": 15.0,
-                        "bias": 1.2
+                        "k": 50,
+                        "bias": 15
                     },
                     "target": 0.162,
                     "finished": false
@@ -82,9 +82,9 @@
                     "total_pressure_tolerance": 10,
                     "difference_pressure_tolerance": 10,
                     "controller_parameters": {
-                        "k_turn": -0.037,
+                        "k_turn": -0.06,
                         "bias_turn": 0,
-                        "k_linear": 0.065,
+                        "k_linear": 0.15,
                         "bias_linear": 0
                     },
                     "target": 120,
@@ -95,8 +95,8 @@
                     "reference": "401_y",
                     "error_tolerance": 0.005,
                     "controller_parameters": {
-                        "k": 25,
-                        "bias": 0.7
+                        "k": 60,
+                        "bias": 10
                     },
                     "target": 0,
                     "finished": false
@@ -106,8 +106,8 @@
                     "reference": "401_yaw",
                     "error_tolerance": 0.017,
                     "controller_parameters": {
-                        "k": 20,
-                        "bias": 0.7
+                        "k": 40,
+                        "bias": 10
                     },
                     "target": 3.14,
                     "finished": false

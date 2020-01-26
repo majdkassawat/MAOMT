@@ -18,10 +18,6 @@ import os
 import pprint
 
 
-
-            
-
-
 cancel_signal = False
 stop_signal = False
 remote_control_activated = False
@@ -41,6 +37,12 @@ current_vel_y = 0
 current_vel_angular = 0
 current_vel_t_left = 0
 current_vel_t_right = 0
+# Old_velocities_global
+old_vel_x = 0
+old_vel_y = 0
+old_vel_angular = 0
+old_vel_t_left = 0
+old_vel_t_right = 0
 # Current_target_point_index
 crnt_trgt_pnt_idx = 0
 # velocity message
@@ -394,7 +396,7 @@ sub_orientation = rospy.Subscriber(
 
 
 def controller():
-    global freq, refrences_dict, crnt_trgt_pnt_idx, trajectory_plan, current_vel_x, current_vel_y, current_vel_angular, refrences_dict_lock
+    global freq, refrences_dict, crnt_trgt_pnt_idx, trajectory_plan, current_vel_x, current_vel_y, current_vel_angular, current_vel_t_left, current_vel_t_right, old_vel_angular, old_vel_t_left, old_vel_t_right, old_vel_x, old_vel_y, refrences_dict_lock
 
     refrences_dict_lock = True
     if crnt_trgt_pnt_idx < len(trajectory_plan):
@@ -445,22 +447,28 @@ def controller():
 
     # rospy.loginfo(refrences_dict)
     # prepare actuating messages to be published
-    if stop_signal == True:
-        cmd_vel_msg.linear.x = 0
-        cmd_vel_msg.linear.y = 0
-        cmd_vel_msg.angular.z = 0
-        t_left_msg.data = 0
-        t_right_msg.data = 0
-    else:
-        cmd_vel_msg.linear.x = current_vel_x
-        cmd_vel_msg.linear.y = current_vel_y
-        cmd_vel_msg.angular.z = current_vel_angular
-        t_left_msg.data = current_vel_t_left
-        t_right_msg.data = current_vel_t_right
-    cmd_vel_pub.publish(cmd_vel_msg)
-    t_left_vel_pub.publish(t_left_msg)
-    t_right_vel_pub.publish(t_right_msg)
-    rotation_origin_pub.publish(rotation_origin_msg)
+    if old_vel_angular != current_vel_angular and old_vel_x != current_vel_x and old_vel_y != current_vel_y and old_vel_t_left != current_vel_t_left and old_vel_t_right != current_vel_t_right:
+        old_vel_angular = current_vel_angular
+        old_vel_x = current_vel_x
+        old_vel_y = current_vel_y
+        old_vel_t_right = current_vel_t_right
+        old_vel_t_left = current_vel_t_left
+        if stop_signal == True:
+            cmd_vel_msg.linear.x = 0
+            cmd_vel_msg.linear.y = 0
+            cmd_vel_msg.angular.z = 0
+            t_left_msg.data = 0
+            t_right_msg.data = 0
+        else:
+            cmd_vel_msg.linear.x = current_vel_x
+            cmd_vel_msg.linear.y = current_vel_y
+            cmd_vel_msg.angular.z = current_vel_angular
+            t_left_msg.data = current_vel_t_left
+            t_right_msg.data = current_vel_t_right
+        cmd_vel_pub.publish(cmd_vel_msg)
+        t_left_vel_pub.publish(t_left_msg)
+        t_right_vel_pub.publish(t_right_msg)
+        rotation_origin_pub.publish(rotation_origin_msg)
     # set the timer to fire up the same function in the specifc time period
     if cancel_signal != True:
         sleep_time = 1/float(freq)
