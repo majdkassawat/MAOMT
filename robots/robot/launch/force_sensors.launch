@@ -1,6 +1,9 @@
 <!-- -*- mode: XML -*- -->
 
 <launch>
-        <node name="force_sensors_driver_left" pkg="robot" type="force_sensor_interface_left.py" output="screen"/>
-        <node name="force_sensors_driver_right" pkg="robot" type="force_sensor_interface_right.py" output="screen"/> 
+       <node name="rosserial_python" pkg="rosserial_python" type="serial_node.py" output="screen">
+                <param name="port" value="/dev/ttyACM0"/>
+                <param name="baud" value="57600"/>
+        </node>
+        <node name="remote_interface" pkg="central_control" type="remote_interface.py" output="screen"/>
 </launch>
