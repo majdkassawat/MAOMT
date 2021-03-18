@@ -12,7 +12,7 @@ from geometry_msgs.msg import Twist
 from geometry_msgs.msg import Pose2D
 
 cancel_signal = False
-freq = 40
+freq = 20
 mode = "stop"
 sync = False
 
@@ -106,7 +106,7 @@ def remote_ch6_Callback(msg):
 # sync_pub = rospy.Publisher(
 #     '/sync', Bool, queue_size=10)
 cmd_vel_pub = rospy.Publisher(
-    '/cmd_vel', Twist, queue_size=10)
+    'cmd_vel', Twist, queue_size=10)
 sub_remote_ch1 = rospy.Subscriber(
     'remote_transmitter/ch1', UInt32, remote_ch1_Callback)
 sub_remote_ch2 = rospy.Subscriber(

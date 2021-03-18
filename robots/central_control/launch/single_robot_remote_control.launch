@@ -1,7 +1,9 @@
 <launch>
-    <node name="rosserial_python" pkg="rosserial_python" type="serial_node.py" output="screen">
-        <param name="port" value="/dev/ttyUSB0"/>
-        <param name="baud" value="57600"/>
-    </node>
-    <node name="single_robot_remote_interface" pkg="central_control" type="single_robot_remote_interface.py" output="screen"/>
+    <group ns="robot1">
+        <node name="rosserial_python" pkg="rosserial_python" type="serial_node.py" output="screen">
+            <param name="port" value="/dev/ttyUSB0"/>
+            <param name="baud" value="57600"/>
+        </node>
+        <node name="single_robot_remote_interface" pkg="central_control" type="single_robot_remote_interface.py" output="screen"/>
+    </group>
 </launch>

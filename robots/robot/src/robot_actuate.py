@@ -9,7 +9,7 @@ from dynamixel_driver_sync import DynamixelDriver
 
 rotation_origin_msg = Pose2D()
 speed_conversion_const = 0.111
-
+motor_speed_threashold = 300
 
 def cmdTwistVelCallback(velocity_msg):
     global rotation_origin_msg
@@ -18,7 +18,7 @@ def cmdTwistVelCallback(velocity_msg):
 
     print(int(wheel1_vel/speed_conversion_const),
           int(wheel2_vel/speed_conversion_const), int(wheel3_vel/speed_conversion_const))
-    if int(wheel1_vel/speed_conversion_const) > 1023 or int(wheel1_vel/speed_conversion_const) < -1023 or int(wheel2_vel/speed_conversion_const) > 1023 or int(wheel2_vel/speed_conversion_const) < -1023 or int(wheel3_vel/speed_conversion_const) > 1023 or int(wheel3_vel/speed_conversion_const) < -1023:
+    if int(wheel1_vel/speed_conversion_const) > motor_speed_threashold or int(wheel1_vel/speed_conversion_const) < -motor_speed_threashold or int(wheel2_vel/speed_conversion_const) > motor_speed_threashold or int(wheel2_vel/speed_conversion_const) < -motor_speed_threashold or int(wheel3_vel/speed_conversion_const) > motor_speed_threashold or int(wheel3_vel/speed_conversion_const) < -motor_speed_threashold:
         print("overall speed vector cannot be reached, command not sent")
     else:
         dxl_driver.set_dxl_speed(1, int(wheel1_vel/speed_conversion_const))
@@ -58,7 +58,7 @@ def cmdTractionRightVelCallback(msg):
             4, int(traction_wheel_vel/speed_conversion_const))
 
 
-dxl_driver = DynamixelDriver("/dev/ttyUSB0")
+dxl_driver = DynamixelDriver("/dev/ttyUSB1")
 dxl_driver.open_port()
 rospy.init_node('robot_actuate_node')
 

@@ -1,4 +1,4 @@
 <launch>
-		<include file="$(find robot)/launch/usb_cam.launch" output="screen" />
+		<include file="$(find robot)/launch/dsi_mono.launch" output="screen" />
 		<include file="$(find robot)/launch/aruco.launch" output="screen" />
 </launch>
