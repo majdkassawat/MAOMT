@@ -12,8 +12,8 @@
                     "reference": "401_pitch",
                     "error_tolerance": 0.017,
                     "controller_parameters": {
-                        "k": 30,
-                        "bias": 25
+                        "k": 60,
+                        "bias": 20
                     },
                     "target": 0,
                     "finished": false
@@ -37,12 +37,52 @@
                         "k": 30,
                         "bias": 15
                     },
-                    "target": 0.22,
+                    "target": 0.25,
                     "finished": false
                 }
             }
         },
         "1": {
+            "reached": false,
+            "correction": {
+                "type": "parallel",
+                "finished": false,
+                "0": {
+                    "type": "single",
+                    "reference": "401_pitch",
+                    "error_tolerance": 0.017,
+                    "controller_parameters": {
+                        "k": 60,
+                        "bias": 20
+                    },
+                    "target": 0,
+                    "finished": false
+                },
+                "1": {
+                    "type": "single",
+                    "reference": "401_x",
+                    "error_tolerance": 0.005,
+                    "controller_parameters": {
+                        "k": 30,
+                        "bias": 15
+                    },
+                    "target": 0,
+                    "finished": false
+                },
+                "2": {
+                    "type": "single",
+                    "reference": "401_z",
+                    "error_tolerance": 0.005,
+                    "controller_parameters": {
+                        "k": 30,
+                        "bias": 15
+                    },
+                    "target": 0.2,
+                    "finished": false
+                }
+            }
+        },
+        "2": {
             "reached": true,
             "correction": {
                 "type": "secuencial",
@@ -61,15 +101,15 @@
                 }
             }
         },
-        "2": {
+        "3": {
             "reached": false,
             "correction": {
                 "type": "calibrate_y",
                 "finished": false
             }
         },
-        "3": {
-            "reached": false,
+        "4": {
+            "reached": true,
             "correction": {
                 "type": "parallel",
                 "finished": false,
@@ -116,7 +156,7 @@
                     "type": "single_boolean",
                     "reference": "sync",
                     "target": true,
-                    "finished": false
+                    "finished": true
                 }
             }
         }
