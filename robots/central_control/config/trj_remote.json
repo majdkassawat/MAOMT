@@ -13,7 +13,7 @@
                     "error_tolerance": 0.017,
                     "controller_parameters": {
                         "k": 30,
-                        "bias": 10
+                        "bias": 25
                     },
                     "target": 0,
                     "finished": false
@@ -23,8 +23,8 @@
                     "reference": "401_x",
                     "error_tolerance": 0.005,
                     "controller_parameters": {
-                        "k": -20,
-                        "bias": -15
+                        "k": 30,
+                        "bias": 15
                     },
                     "target": 0,
                     "finished": false
@@ -34,10 +34,10 @@
                     "reference": "401_z",
                     "error_tolerance": 0.005,
                     "controller_parameters": {
-                        "k": 50,
+                        "k": 30,
                         "bias": 15
                     },
-                    "target": 0.162,
+                    "target": 0.22,
                     "finished": false
                 }
             }

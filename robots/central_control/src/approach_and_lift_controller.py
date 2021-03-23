@@ -6,6 +6,7 @@ from geometry_msgs.msg import Twist
 from std_msgs.msg import Float64
 from geometry_msgs.msg import Pose2D
 from std_msgs.msg import Int64
+from std_msgs.msg import Int16
 from std_msgs.msg import Bool
 import math
 import tf
@@ -24,8 +25,8 @@ remote_control_activated = False
 min_pressure_delta = 0
 robot_orientation = 0
 height = 0
-# Frequency
-freq = 40
+# Frequency, this value is overwritten by the config file
+freq = 20
 # Height offset to be set in calibrate
 height_offset = 0
 # Dictionary visible markers
@@ -95,7 +96,10 @@ def process_correction(correction):
     rotation_origin_msg.y = 0
     if correction["type"] == "single":
         error = refrences_dict[correction["reference"]
-                               ]["value"]-correction["target"]
+                               ]["value"] - correction["target"]
+        print("reference ", refrences_dict[correction["reference"]]["value"])
+        print("target ", correction["target"])
+
         k = correction["controller_parameters"]["k"]
         bias = correction["controller_parameters"]["bias"]
         error_tolerance = correction["error_tolerance"]
@@ -310,12 +314,6 @@ def force_sensor_left_Callback(msg):
     global refrences_dict
     refrences_dict["fsl"] = {"type": "force_sensor"}
     refrences_dict["fsl"]["value"] = msg.data
-    # if "fsl" not in refrences_dict:
-    #     refrences_dict["fsl"] = {"type": "force_sensor"}
-    #     refrences_dict["fsl"]["value"] = msg.data
-    # else:
-    #     refrences_dict["fsl"] = {"type": "force_sensor"}
-    #     refrences_dict["fsl"]["value"] = msg.data
     # print(refrences_dict["fsl"]["value"])
 
 
@@ -323,18 +321,13 @@ def force_sensor_right_Callback(msg):
     global refrences_dict
     refrences_dict["fsr"] = {"type": "force_sensor"}
     refrences_dict["fsr"]["value"] = msg.data
-    # if "fsr" not in refrences_dict:
-    #     refrences_dict["fsr"] = {"type": "force_sensor"}
-    #     refrences_dict["fsr"]["value"] = msg.data
-    # else:
-    #     refrences_dict["fsr"] = {"type": "force_sensor"}
-    #     refrences_dict["fsr"]["value"] = msg.data
     # print(refrences_dict["fsr"]["value"])
 
 
 def stop_signal_Callback(msg):
     global stop_signal
-    stop_signal = msg.data
+    # stop_signal = msg.data
+    stop_signal = False # This is for debugging
 
 
 def sigint_handler(signum, frame):
@@ -368,6 +361,7 @@ def orientation_Callback(msg):
 
 signal.signal(signal.SIGINT, sigint_handler)
 
+# Preparing Ros nodes and topics
 rospy.init_node('approach_and_lift_controller', log_level=rospy.INFO)
 cmd_vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
 rotation_origin_pub = rospy.Publisher('rotation_origin', Pose2D, queue_size=10)
@@ -380,9 +374,9 @@ sub = rospy.Subscriber('aruco_marker_publisher/markers',
 sub_markers_list = rospy.Subscriber(
     'aruco_marker_publisher/markers_list', UInt32MultiArray, Markers_list_Callback)
 sub_force_sensor_left = rospy.Subscriber(
-    'force_sensor_left', Int64, force_sensor_left_Callback)
+    'force_sensor_left', Int16, force_sensor_left_Callback)
 sub_force_sensor_right = rospy.Subscriber(
-    'force_sensor_right', Int64, force_sensor_right_Callback)
+    'force_sensor_right', Int16, force_sensor_right_Callback)
 sub_stop_signal = rospy.Subscriber(
     '/stop_signal', Bool, stop_signal_Callback)
 sub_sync = rospy.Subscriber(
@@ -397,7 +391,6 @@ sub_orientation = rospy.Subscriber(
 
 def controller():
     global freq, refrences_dict, crnt_trgt_pnt_idx, trajectory_plan, current_vel_x, current_vel_y, current_vel_angular, current_vel_t_left, current_vel_t_right, old_vel_angular, old_vel_t_left, old_vel_t_right, old_vel_x, old_vel_y, refrences_dict_lock
-
     refrences_dict_lock = True
     if crnt_trgt_pnt_idx < len(trajectory_plan):
         current_point = trajectory_plan[str(crnt_trgt_pnt_idx)]
@@ -405,6 +398,7 @@ def controller():
             crnt_trgt_pnt_idx = crnt_trgt_pnt_idx + 1  # move to next point
             rospy.loginfo("reached point"+str(crnt_trgt_pnt_idx))
         else:  # point has not been processed yet
+            rospy.loginfo("processing point"+str(crnt_trgt_pnt_idx))
             # check that all references for this point are available
             required_reference_list = []
 
@@ -425,7 +419,7 @@ def controller():
             fill_required_reference_list(current_point["correction"])
 
             def check_all_references_available():
-                print(required_reference_list)
+                # print(required_reference_list)
                 for required_ref in required_reference_list:
                     if required_ref not in refrences_dict:
                         return False
@@ -433,6 +427,7 @@ def controller():
             # rospy.loginfo("required_references:"+" ".join(required_reference_list))
             if check_all_references_available() == True:
                 # rospy.loginfo("processing point: " + str(crnt_trgt_pnt_idx) + ", reference found")
+                # print(refrences_dict)
                 current_point["reached"] = process_correction(
                     current_point["correction"])
                 # print("left:", refrences_dict["fsl"]["value"],
@@ -444,15 +439,19 @@ def controller():
         stop()
 
     refrences_dict_lock = False
+    print("before updating speeds")
+    print("Angular ", current_vel_angular, " x ",
+          current_vel_x, " y", current_vel_y, " t_right ", current_vel_t_right, " t_left ", current_vel_t_left)
 
     # rospy.loginfo(refrences_dict)
     # prepare actuating messages to be published
-    if old_vel_angular != current_vel_angular and old_vel_x != current_vel_x and old_vel_y != current_vel_y and old_vel_t_left != current_vel_t_left and old_vel_t_right != current_vel_t_right:
+    if old_vel_angular != current_vel_angular or old_vel_x != current_vel_x or old_vel_y != current_vel_y or old_vel_t_left != current_vel_t_left or old_vel_t_right != current_vel_t_right:
         old_vel_angular = current_vel_angular
         old_vel_x = current_vel_x
         old_vel_y = current_vel_y
         old_vel_t_right = current_vel_t_right
         old_vel_t_left = current_vel_t_left
+
         if stop_signal == True:
             cmd_vel_msg.linear.x = 0
             cmd_vel_msg.linear.y = 0

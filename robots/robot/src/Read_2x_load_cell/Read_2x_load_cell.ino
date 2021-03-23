@@ -16,9 +16,9 @@
 ros::NodeHandle nh;
 
 std_msgs::Int16 int_msg_sensor1;
-ros::Publisher pub1("force_sensor_1", &int_msg_sensor1);
+ros::Publisher pub1("force_sensor_right", &int_msg_sensor1);
 std_msgs::Int16 int_msg_sensor2;
-ros::Publisher pub2("force_sensor_2", &int_msg_sensor2);
+ros::Publisher pub2("force_sensor_left", &int_msg_sensor2);
 
 
 //HX711 constructor (dout pin, sck pin)
