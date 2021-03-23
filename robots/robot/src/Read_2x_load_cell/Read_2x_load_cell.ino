@@ -61,8 +61,8 @@ void loop() {
   LoadCell_1.update();
   LoadCell_2.update();
 
-  float a = LoadCell_1.getData();
-  float b = LoadCell_2.getData();
+  float a = -1*LoadCell_1.getData();
+  float b = -1*LoadCell_2.getData();
 
   int_msg_sensor1.data = (int)a;
   int_msg_sensor2.data = (int)b;
