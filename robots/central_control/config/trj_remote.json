@@ -1,5 +1,5 @@
 {
-    "remote_control_activated": true,
+    "remote_control_activated": false,
     "freq": 30,
     "trajectory": {
         "0": {
@@ -10,7 +10,7 @@
                 "0": {
                     "type": "single",
                     "reference": "401_pitch",
-                    "error_tolerance": 0.017,
+                    "error_tolerance": 0.05,
                     "controller_parameters": {
                         "k": 60,
                         "bias": 20
@@ -21,7 +21,7 @@
                 "1": {
                     "type": "single",
                     "reference": "401_x",
-                    "error_tolerance": 0.005,
+                    "error_tolerance": 0.01,
                     "controller_parameters": {
                         "k": 30,
                         "bias": 15
@@ -32,7 +32,7 @@
                 "2": {
                     "type": "single",
                     "reference": "401_z",
-                    "error_tolerance": 0.005,
+                    "error_tolerance": 0.01,
                     "controller_parameters": {
                         "k": 30,
                         "bias": 15
@@ -75,7 +75,7 @@
                     "error_tolerance": 0.005,
                     "controller_parameters": {
                         "k": 30,
-                        "bias": 15
+                        "bias": 5
                     },
                     "target": 0.2,
                     "finished": false
@@ -109,55 +109,23 @@
             }
         },
         "4": {
-            "reached": true,
+            "reached": false,
             "correction": {
                 "type": "parallel",
                 "finished": false,
+                
                 "0": {
-                    "type": "force_coupled",
-                    "reference": {
-                        "left": "fsl",
-                        "right": "fsr"
-                    },
-                    "total_pressure_tolerance": 10,
-                    "difference_pressure_tolerance": 10,
-                    "controller_parameters": {
-                        "k_turn": -0.06,
-                        "bias_turn": 0,
-                        "k_linear": 0.15,
-                        "bias_linear": 0
-                    },
-                    "target": 120,
-                    "finished": false
-                },
-                "1": {
                     "type": "single",
-                    "reference": "401_y",
-                    "error_tolerance": 0.005,
+                    "reference": "401_yaw",
+                    "error_tolerance": 0.00000017,
                     "controller_parameters": {
-                        "k": 60,
-                        "bias": 10
+                        "k": 300,
+                        "bias": 40
                     },
                     "target": 0,
                     "finished": false
-                },
-                "2": {
-                    "type": "single",
-                    "reference": "401_yaw",
-                    "error_tolerance": 0.017,
-                    "controller_parameters": {
-                        "k": 40,
-                        "bias": 10
-                    },
-                    "target": 3.14,
-                    "finished": false
-                },
-                "3": {
-                    "type": "single_boolean",
-                    "reference": "sync",
-                    "target": true,
-                    "finished": true
                 }
+
             }
         }
     }

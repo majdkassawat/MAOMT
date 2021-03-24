@@ -158,7 +158,7 @@ def process_correction(correction):
                 error_tolerance = correction["error_tolerance"]
                 target_vel = (error) * k + (error)/abs(error) * bias
             # correct height
-            if(abs(error) > error_tolerance):
+            elif(abs(error) > error_tolerance):
                 # rospy.loginfo("correcting 401_y, error ="+str(error))
                 # stop()
                 current_vel_t_left = ramp(current_vel_t_left, target_vel)
@@ -294,8 +294,8 @@ def MarkersCallback(msg):
         x = marker.pose.pose.position.x
         y = marker.pose.pose.position.y
         z = marker.pose.pose.position.z
-        if yaw < 0:
-            yaw = math.pi * 2 - abs(yaw)
+        # if yaw < 0:
+        #     yaw = math.pi * 2 - abs(yaw)
         refrences_dict[str(marker.id)+"_x"] = {"type": "marker", "value": x}
         refrences_dict[str(
             marker.id)+"_y"] = {"type": "marker", "value": y - height_offset}
@@ -439,9 +439,9 @@ def controller():
         stop()
 
     refrences_dict_lock = False
-    print("before updating speeds")
-    print("Angular ", current_vel_angular, " x ",
-          current_vel_x, " y", current_vel_y, " t_right ", current_vel_t_right, " t_left ", current_vel_t_left)
+    # print("before updating speeds")
+    # print("Angular ", current_vel_angular, " x ",
+    #       current_vel_x, " y", current_vel_y, " t_right ", current_vel_t_right, " t_left ", current_vel_t_left)
 
     # rospy.loginfo(refrences_dict)
     # prepare actuating messages to be published
@@ -472,7 +472,8 @@ def controller():
     if cancel_signal != True:
         sleep_time = 1/float(freq)
         threading.Timer(sleep_time, controller).start()
-
+    else:
+        stop()
 
 controller()
 r = rospy.Rate(freq)
