@@ -42,23 +42,27 @@ def cmdTractionLeftVelCallback(msg):
     traction_wheel_vel = msg.data
     if traction_wheel_vel == 0:
         dxl_driver.set_dxl_torque_enable(5, False)
+    elif int(traction_wheel_vel) > motor_speed_threashold:
+        print("left traction wheel velocity cannot be reached, command not sent")
     else:
         dxl_driver.set_dxl_torque_enable(5, True)
         dxl_driver.set_dxl_speed(
-            5, int(traction_wheel_vel/speed_conversion_const))
+            5, int(traction_wheel_vel))
 
 
 def cmdTractionRightVelCallback(msg):
     traction_wheel_vel = msg.data
     if traction_wheel_vel == 0:
         dxl_driver.set_dxl_torque_enable(4, False)
+    elif int(traction_wheel_vel) > motor_speed_threashold:
+        print("right traction wheel velocity cannot be reached, command not sent")
     else:
         dxl_driver.set_dxl_torque_enable(4, True)
         dxl_driver.set_dxl_speed(
-            4, int(traction_wheel_vel/speed_conversion_const))
+            4, int(traction_wheel_vel))
 
 
-dxl_driver = DynamixelDriver("/dev/ttyUSB1")
+dxl_driver = DynamixelDriver("/dev/ttyUSB2")
 dxl_driver.open_port()
 rospy.init_node('robot_actuate_node')
 
