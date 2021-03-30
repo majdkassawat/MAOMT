@@ -53,7 +53,8 @@ t_right_msg = Float64()
 # position message
 rotation_origin_msg = Pose2D()
 rotation_origin_msg.theta = 60
-
+# timers list
+time_init_dict = {}
 trajectory_plan = {}
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
@@ -186,7 +187,7 @@ def process_correction(correction):
         sum_vel_t_right = 0
         correction["finished"] = True
         for i in range(0, len(correction) - 2):
-            stop()
+            # stop()
             process_correction(correction[str(i)])
             # agregating the values
             sum_vel_x = sum_vel_x + current_vel_x
@@ -239,19 +240,26 @@ def process_correction(correction):
             average_error = target_plus_delta - 0.5 * (fl+fr)
             target_vel = (average_error) * k_linear + \
                 (float(average_error)/abs(average_error)) * bias_linear
-            current_vel_x = ramp(current_vel_x, target_vel)
-            current_vel_angular = ramp(current_vel_angular, 0)
+            # current_vel_x = ramp(current_vel_x, target_vel)
+            current_vel_x = target_vel
+            # current_vel_angular = ramp(current_vel_angular, 0)
+            current_vel_angular = 0
         elif abs(difference_error) > correction["difference_pressure_tolerance"]:
             print("correcting difference")
             target_vel = (difference_error) * k_turn + \
                 (float(difference_error)/abs(difference_error)) * bias_turn
-            current_vel_x = ramp(current_vel_x, 0)
-            current_vel_angular = ramp(current_vel_angular, target_vel)
+            # current_vel_x = ramp(current_vel_x, 0)
+            current_vel_x = 0
+            # current_vel_angular = ramp(current_vel_angular, target_vel)
+            current_vel_angular = target_vel
         else:
-            print("foces are stable .. nothing to correct")
+            print("forces are stable .. nothing to correct")
             # stop
-            current_vel_x = ramp(current_vel_x, 0)
-            current_vel_angular = ramp(current_vel_angular, 0)
+            # current_vel_x = ramp(current_vel_x, 0)
+            current_vel_x = 0
+            # current_vel_angular = ramp(current_vel_angular, 0)
+            current_vel_angular = 0
+            correction["finished"] = True
     elif correction["type"] == "single_boolean":
         if correction["reference"] == "sync":
             target = correction["target"]
@@ -264,6 +272,24 @@ def process_correction(correction):
     elif correction["type"] == "calibrate_y":
         height_offset = refrences_dict["401_y"]["value"]
         correction["finished"] = True
+    elif correction["type"] == "stop":
+        stop()
+        print("stop point is called")
+        correction["finished"] = True
+    elif correction["type"] == "wait":
+        if correction["id"] in time_init_dict:
+            current_time = time.time()  # in seconds
+            elapsed_time = current_time - time_init_dict[correction["id"]]
+            if elapsed_time >= correction["target"]:
+                correction["finished"] = True
+            else:
+                print("waiting")
+                correction["finished"] = False
+        else:
+            current_time = time.time()  # in seconds
+            time_init_dict[correction["id"]] = current_time
+            correction["finished"] = False
+
 
     return correction["finished"]
 
@@ -392,6 +418,7 @@ sub_orientation = rospy.Subscriber(
 def controller():
     global freq, refrences_dict, crnt_trgt_pnt_idx, trajectory_plan, current_vel_x, current_vel_y, current_vel_angular, current_vel_t_left, current_vel_t_right, old_vel_angular, old_vel_t_left, old_vel_t_right, old_vel_x, old_vel_y, refrences_dict_lock
     refrences_dict_lock = True
+    stop() # This is to zero all velocities before starting calculations
     if crnt_trgt_pnt_idx < len(trajectory_plan):
         current_point = trajectory_plan[str(crnt_trgt_pnt_idx)]
         if current_point["reached"] == True:  # point has already been reached
@@ -440,8 +467,8 @@ def controller():
 
     refrences_dict_lock = False
     # print("before updating speeds")
-    # print("Angular ", current_vel_angular, " x ",
-    #       current_vel_x, " y", current_vel_y, " t_right ", current_vel_t_right, " t_left ", current_vel_t_left)
+    print("Angular ", current_vel_angular, " x ",
+          current_vel_x, " y", current_vel_y, " t_right ", current_vel_t_right, " t_left ", current_vel_t_left)
 
     # rospy.loginfo(refrences_dict)
     # prepare actuating messages to be published
