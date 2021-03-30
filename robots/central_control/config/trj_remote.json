@@ -13,7 +13,7 @@
                     "error_tolerance": 0.05,
                     "controller_parameters": {
                         "k": 60,
-                        "bias": 20
+                        "bias": 17
                     },
                     "target": 0,
                     "finished": false
@@ -24,7 +24,7 @@
                     "error_tolerance": 0.01,
                     "controller_parameters": {
                         "k": 30,
-                        "bias": 15
+                        "bias": 8
                     },
                     "target": 0,
                     "finished": false
@@ -35,7 +35,7 @@
                     "error_tolerance": 0.01,
                     "controller_parameters": {
                         "k": 30,
-                        "bias": 15
+                        "bias": 12
                     },
                     "target": 0.25,
                     "finished": false
@@ -50,10 +50,10 @@
                 "0": {
                     "type": "single",
                     "reference": "401_pitch",
-                    "error_tolerance": 0.017,
+                    "error_tolerance": 0.04,
                     "controller_parameters": {
                         "k": 60,
-                        "bias": 20
+                        "bias": 15
                     },
                     "target": 0,
                     "finished": false
@@ -64,7 +64,7 @@
                     "error_tolerance": 0.005,
                     "controller_parameters": {
                         "k": 30,
-                        "bias": 15
+                        "bias": 6
                     },
                     "target": 0,
                     "finished": false
@@ -75,7 +75,7 @@
                     "error_tolerance": 0.005,
                     "controller_parameters": {
                         "k": 30,
-                        "bias": 5
+                        "bias": 10
                     },
                     "target": 0.2,
                     "finished": false
@@ -104,28 +104,126 @@
         "3": {
             "reached": false,
             "correction": {
-                "type": "calibrate_y",
+                "type": "stop",
                 "finished": false
             }
         },
         "4": {
             "reached": false,
             "correction": {
+                "type": "wait",
+                "id": 1,
+                "target": 10,
+                "finished": false
+            }
+        },
+        "5": {
+            "reached": false,
+            "correction": {
+                "type": "calibrate_y",
+                "finished": false
+            }
+        },
+        "6": {
+            "reached": false,
+            "correction": {
                 "type": "parallel",
                 "finished": false,
-                
                 "0": {
+                    "type": "force_coupled",
+                    "reference": {
+                        "left": "fsl",
+                        "right": "fsr"
+                    },
+                    "total_pressure_tolerance": 30,
+                    "difference_pressure_tolerance": 30,
+                    "controller_parameters": {
+                        "k_turn": 0,
+                        "bias_turn": -17,
+                        "k_linear": 0,
+                        "bias_linear": 7
+                    },
+                    "target": 50,
+                    "finished": false
+                }
+            }
+        },
+        "7": {
+            "reached": false,
+            "correction": {
+                "type": "parallel",
+                "finished": false,
+                "0": {
+                    "type": "force_coupled",
+                    "reference": {
+                        "left": "fsl",
+                        "right": "fsr"
+                    },
+                    "total_pressure_tolerance": 40,
+                    "difference_pressure_tolerance": 40,
+                    "controller_parameters": {
+                        "k_turn": 0,
+                        "bias_turn": -17,
+                        "k_linear": 0,
+                        "bias_linear": 7
+                    },
+                    "target": 80,
+                    "finished": false
+                },
+                "1": {
                     "type": "single",
                     "reference": "401_yaw",
-                    "error_tolerance": 0.00000017,
+                    "error_tolerance": 0.05,
                     "controller_parameters": {
-                        "k": 300,
+                        "k": 1000,
                         "bias": 40
                     },
                     "target": 0,
                     "finished": false
+                },
+                "2": {
+                    "type": "single",
+                    "reference": "401_y",
+                    "error_tolerance": 0.005,
+                    "controller_parameters": {
+                        "k": 1000,
+                        "bias": 40
+                    },
+                    "target": -0.04,
+                    "finished": false
                 }
-
+            }
+        },
+        "8": {
+            "reached": false,
+            "correction": {
+                "type": "stop",
+                "finished": false
+            }
+        },
+        "9": {
+            "reached": false,
+            "correction": {
+                "type": "wait",
+                "id": 1,
+                "target": 10,
+                "finished": false
+            }
+        },
+        "10": {
+            "reached": false,
+            "correction": {
+                "0": {
+                    "type": "single",
+                    "reference": "401_z",
+                    "error_tolerance": 0.01,
+                    "controller_parameters": {
+                        "k": 30,
+                        "bias": 12
+                    },
+                    "target": 0.4,
+                    "finished": false
+                }
             }
         }
     }
