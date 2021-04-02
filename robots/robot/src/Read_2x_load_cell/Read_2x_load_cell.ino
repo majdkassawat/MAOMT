@@ -32,8 +32,8 @@ void setup() {
   float calValue_1; // calibration value load cell 1
   float calValue_2; // calibration value load cell 2
   
-  calValue_1 = 200; // uncomment this if you want to set this value in the sketch 
-  calValue_2 = 200; // uncomment this if you want to set this value in the sketch 
+  calValue_1 = 1160; // uncomment this if you want to set this value in the sketch 
+  calValue_2 = 1093; // uncomment this if you want to set this value in the sketch 
 
   LoadCell_1.begin();
   LoadCell_2.begin();
