@@ -1,6 +1,6 @@
 {
     "remote_control_activated": false,
-    "freq": 30,
+    "freq": 40,
     "trajectory": {
         "0": {
             "reached": false,
@@ -139,9 +139,9 @@
                     "difference_pressure_tolerance": 30,
                     "controller_parameters": {
                         "k_turn": 0,
-                        "bias_turn": -17,
+                        "bias_turn": -30,
                         "k_linear": 0,
-                        "bias_linear": 7
+                        "bias_linear": 10
                     },
                     "target": 50,
                     "finished": false
@@ -159,13 +159,13 @@
                         "left": "fsl",
                         "right": "fsr"
                     },
-                    "total_pressure_tolerance": 40,
-                    "difference_pressure_tolerance": 40,
+                    "total_pressure_tolerance": 60,
+                    "difference_pressure_tolerance": 60,
                     "controller_parameters": {
                         "k_turn": 0,
-                        "bias_turn": -17,
+                        "bias_turn": -30,
                         "k_linear": 0,
-                        "bias_linear": 7
+                        "bias_linear": 9
                     },
                     "target": 80,
                     "finished": false
@@ -213,6 +213,9 @@
         "10": {
             "reached": false,
             "correction": {
+                "type": "parallel",
+                "finished": false,
+                
                 "0": {
                     "type": "single",
                     "reference": "401_z",
