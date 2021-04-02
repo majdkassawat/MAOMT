@@ -45,7 +45,7 @@ def omnidirectional_driver(vel_msg, pos_msg):
     W = vel_msg.angular.z 
     Vtx = vel_msg.linear.x
     Vtz = vel_msg.linear.y
-    lambda_ref = pos_msg.theta
+    # lambda_ref = pos_msg.theta
     x_ref = pos_msg.x
     z_ref = pos_msg.y
     calculate_matrices()
