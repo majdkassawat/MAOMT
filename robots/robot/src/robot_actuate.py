@@ -38,9 +38,6 @@ def cmdTwistVelCallback(velocity_msg):
         print("wheel3_vel cannot be reached, max speed sent")
         
     else:
-        dxl_driver.set_dxl_torque_enable(1, True)
-        dxl_driver.set_dxl_torque_enable(2, True)
-        dxl_driver.set_dxl_torque_enable(3, True)
         dxl_driver.set_dxl_speed(1, int(wheel1_vel/speed_conversion_const))
         dxl_driver.set_dxl_speed(2, int(wheel2_vel/speed_conversion_const))
         dxl_driver.set_dxl_speed(3, int(wheel3_vel/speed_conversion_const))
