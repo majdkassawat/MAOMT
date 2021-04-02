@@ -240,25 +240,25 @@ def process_correction(correction):
             average_error = target_plus_delta - 0.5 * (fl+fr)
             target_vel = (average_error) * k_linear + \
                 (float(average_error)/abs(average_error)) * bias_linear
-            # current_vel_x = ramp(current_vel_x, target_vel)
-            current_vel_x = target_vel
-            # current_vel_angular = ramp(current_vel_angular, 0)
-            current_vel_angular = 0
+            current_vel_x = ramp(current_vel_x, target_vel)
+            # current_vel_x = target_vel
+            current_vel_angular = ramp(current_vel_angular, 0)
+            # current_vel_angular = 0
         elif abs(difference_error) > correction["difference_pressure_tolerance"]:
             print("correcting difference")
             target_vel = (difference_error) * k_turn + \
                 (float(difference_error)/abs(difference_error)) * bias_turn
-            # current_vel_x = ramp(current_vel_x, 0)
-            current_vel_x = 0
-            # current_vel_angular = ramp(current_vel_angular, target_vel)
-            current_vel_angular = target_vel
+            current_vel_x = ramp(current_vel_x, 0)
+            # current_vel_x = 0
+            current_vel_angular = ramp(current_vel_angular, target_vel)
+            # current_vel_angular = target_vel
         else:
             print("forces are stable .. nothing to correct")
             # stop
-            # current_vel_x = ramp(current_vel_x, 0)
-            current_vel_x = 0
-            # current_vel_angular = ramp(current_vel_angular, 0)
-            current_vel_angular = 0
+            current_vel_x = ramp(current_vel_x, 0)
+            # current_vel_x = 0
+            current_vel_angular = ramp(current_vel_angular, 0)
+            # current_vel_angular = 0
             correction["finished"] = True
     elif correction["type"] == "single_boolean":
         if correction["reference"] == "sync":
