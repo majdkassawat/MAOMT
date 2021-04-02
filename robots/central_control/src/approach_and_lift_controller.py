@@ -187,7 +187,7 @@ def process_correction(correction):
         sum_vel_t_right = 0
         correction["finished"] = True
         for i in range(0, len(correction) - 2):
-            # stop()
+            stop()  # This is to zero the values before we calculate new correction, it does not stop the robot.
             process_correction(correction[str(i)])
             # agregating the values
             sum_vel_x = sum_vel_x + current_vel_x
@@ -417,6 +417,7 @@ sub_orientation = rospy.Subscriber(
 
 def controller():
     global freq, refrences_dict, crnt_trgt_pnt_idx, trajectory_plan, current_vel_x, current_vel_y, current_vel_angular, current_vel_t_left, current_vel_t_right, old_vel_angular, old_vel_t_left, old_vel_t_right, old_vel_x, old_vel_y, refrences_dict_lock
+    
     refrences_dict_lock = True
     stop() # This is to zero all velocities before starting calculations
     if crnt_trgt_pnt_idx < len(trajectory_plan):
@@ -446,9 +447,8 @@ def controller():
             fill_required_reference_list(current_point["correction"])
 
             def check_all_references_available():
-                # print(required_reference_list)
                 for required_ref in required_reference_list:
-                    if required_ref not in refrences_dict:
+                    if (required_ref not in refrences_dict) and ((required_ref != "fsl")or(required_ref != "fsr")):
                         return False
                 return True
             # rospy.loginfo("required_references:"+" ".join(required_reference_list))
@@ -472,7 +472,7 @@ def controller():
 
     # rospy.loginfo(refrences_dict)
     # prepare actuating messages to be published
-    if old_vel_angular != current_vel_angular or old_vel_x != current_vel_x or old_vel_y != current_vel_y or old_vel_t_left != current_vel_t_left or old_vel_t_right != current_vel_t_right:
+    if True:
         old_vel_angular = current_vel_angular
         old_vel_x = current_vel_x
         old_vel_y = current_vel_y
@@ -495,12 +495,16 @@ def controller():
         t_left_vel_pub.publish(t_left_msg)
         t_right_vel_pub.publish(t_right_msg)
         rotation_origin_pub.publish(rotation_origin_msg)
+        print("time:", time.time())
     # set the timer to fire up the same function in the specifc time period
     if cancel_signal != True:
         sleep_time = 1/float(freq)
         threading.Timer(sleep_time, controller).start()
     else:
         stop()
+        cmd_vel_pub.publish(cmd_vel_msg)
+        t_left_vel_pub.publish(t_left_msg)
+        t_right_vel_pub.publish(t_right_msg)
 
 controller()
 r = rospy.Rate(freq)

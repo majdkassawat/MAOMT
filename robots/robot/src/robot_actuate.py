@@ -18,9 +18,29 @@ def cmdTwistVelCallback(velocity_msg):
 
     print(int(wheel1_vel/speed_conversion_const),
           int(wheel2_vel/speed_conversion_const), int(wheel3_vel/speed_conversion_const))
-    if int(wheel1_vel/speed_conversion_const) > motor_speed_threashold or int(wheel1_vel/speed_conversion_const) < -motor_speed_threashold or int(wheel2_vel/speed_conversion_const) > motor_speed_threashold or int(wheel2_vel/speed_conversion_const) < -motor_speed_threashold or int(wheel3_vel/speed_conversion_const) > motor_speed_threashold or int(wheel3_vel/speed_conversion_const) < -motor_speed_threashold:
-        print("overall speed vector cannot be reached, command not sent")
+    if int(wheel1_vel / speed_conversion_const) > motor_speed_threashold:
+        wheel1_vel = speed_conversion_const*motor_speed_threashold
+        print("wheel1_vel cannot be reached, max speed sent")
+    if int(wheel1_vel / speed_conversion_const) < -motor_speed_threashold:
+        wheel1_vel = -1*speed_conversion_const*motor_speed_threashold
+        print("wheel1_vel cannot be reached, max speed sent")
+    if int(wheel2_vel / speed_conversion_const) > motor_speed_threashold:
+        wheel2_vel = speed_conversion_const*motor_speed_threashold
+        print("wheel2_vel cannot be reached, max speed sent")
+    if int(wheel2_vel / speed_conversion_const) < -motor_speed_threashold:
+        wheel2_vel = -1*speed_conversion_const*motor_speed_threashold
+        print("wheel2_vel cannot be reached, max speed sent")
+    if int(wheel3_vel / speed_conversion_const) > motor_speed_threashold:
+        wheel3_vel = speed_conversion_const*motor_speed_threashold
+        print("wheel3_vel cannot be reached, max speed sent")
+    if int(wheel3_vel / speed_conversion_const) < -motor_speed_threashold:
+        wheel3_vel = -1*speed_conversion_const*motor_speed_threashold
+        print("wheel3_vel cannot be reached, max speed sent")
+        
     else:
+        dxl_driver.set_dxl_torque_enable(1, True)
+        dxl_driver.set_dxl_torque_enable(2, True)
+        dxl_driver.set_dxl_torque_enable(3, True)
         dxl_driver.set_dxl_speed(1, int(wheel1_vel/speed_conversion_const))
         dxl_driver.set_dxl_speed(2, int(wheel2_vel/speed_conversion_const))
         dxl_driver.set_dxl_speed(3, int(wheel3_vel/speed_conversion_const))
@@ -40,29 +60,36 @@ def rotationOriginCallback(msg):
 
 def cmdTractionLeftVelCallback(msg):
     traction_wheel_vel = msg.data
-    if traction_wheel_vel == 0:
-        dxl_driver.set_dxl_torque_enable(5, False)
-    elif int(traction_wheel_vel) > motor_speed_threashold:
-        print("left traction wheel velocity cannot be reached, command not sent")
+    if int(traction_wheel_vel) > motor_speed_threashold:
+        traction_wheel_vel = motor_speed_threashold
+        print("left traction wheel velocity cannot be reached, max speed sent")
+    elif int(traction_wheel_vel) < -motor_speed_threashold:
+        traction_wheel_vel = -motor_speed_threashold
+        print("left traction wheel velocity cannot be reached, max speed sent")
     else:
         dxl_driver.set_dxl_torque_enable(5, True)
         dxl_driver.set_dxl_speed(
             5, int(traction_wheel_vel))
+    if traction_wheel_vel == 0:
+        dxl_driver.set_dxl_torque_enable(5, False)
 
 
 def cmdTractionRightVelCallback(msg):
     traction_wheel_vel = msg.data
-    if traction_wheel_vel == 0:
-        dxl_driver.set_dxl_torque_enable(4, False)
-    elif int(traction_wheel_vel) > motor_speed_threashold:
-        print("right traction wheel velocity cannot be reached, command not sent")
+    if int(traction_wheel_vel) > motor_speed_threashold:
+        traction_wheel_vel = motor_speed_threashold
+        print("right traction wheel velocity cannot be reached, max speed sent")
+    elif int(traction_wheel_vel) < -motor_speed_threashold:
+        traction_wheel_vel = -motor_speed_threashold
+        print("right traction wheel velocity cannot be reached, max speed sent")
     else:
         dxl_driver.set_dxl_torque_enable(4, True)
         dxl_driver.set_dxl_speed(
             4, int(traction_wheel_vel))
+    if traction_wheel_vel == 0:
+        dxl_driver.set_dxl_torque_enable(4, False)
 
-
-dxl_driver = DynamixelDriver("/dev/ttyUSB2")
+dxl_driver = DynamixelDriver("/dev/ttyUSB1")
 dxl_driver.open_port()
 rospy.init_node('robot_actuate_node')
 
