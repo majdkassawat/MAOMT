@@ -22,8 +22,8 @@ ros::Publisher pub2("force_sensor_left", &int_msg_sensor2);
 
 
 //HX711 constructor (dout pin, sck pin)
-HX711_ADC LoadCell_1(3, 2); //HX711 1
-HX711_ADC LoadCell_2(5, 4); //HX711 2
+HX711_ADC LoadCell_1(3, 2); //  Robot1: 3,2    -   Robot2: 7,8
+HX711_ADC LoadCell_2(5, 4); //  Robot1: 5,4    -   Robot2: 9,10
 
 long t;
 
@@ -32,8 +32,8 @@ void setup() {
   float calValue_1; // calibration value load cell 1
   float calValue_2; // calibration value load cell 2
   
-  calValue_1 = 1160; // uncomment this if you want to set this value in the sketch 
-  calValue_2 = 1093; // uncomment this if you want to set this value in the sketch 
+  calValue_1 = 1160; // Robot1 right: 1160, Robot2 right: 1149
+  calValue_2 = 1093; // Robot1 left: 1093, Robot2 left: 1137
 
   LoadCell_1.begin();
   LoadCell_2.begin();
