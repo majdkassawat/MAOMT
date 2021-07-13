@@ -406,7 +406,7 @@ t_left_vel_pub = rospy.Publisher(
 t_right_vel_pub = rospy.Publisher(
     'traction_wheel_right_vel', Float64, queue_size=10)
 current_point_pub = rospy.Publisher(
-    'current point', Int16, queue_size=10)
+    'current_point', Int16, queue_size=10)
 sub = rospy.Subscriber('aruco_marker_publisher/markers',
                        MarkerArray, MarkersCallback)
 sub_markers_list = rospy.Subscriber(
@@ -509,6 +509,7 @@ def controller():
         t_left_vel_pub.publish(t_left_msg)
         t_right_vel_pub.publish(t_right_msg)
         rotation_origin_pub.publish(rotation_origin_msg)
+        current_point_pub.publish(current_point_msg)
         print("time:", time.time())
     # set the timer to fire up the same function in the specifc time period
     if cancel_signal != True:
