@@ -3,11 +3,14 @@ import rospy
 from std_msgs.msg import Float64
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import Pose2D
+from std_msgs.msg import Bool
+from datetime import datetime
 from omnidirectional_driver import omnidirectional_driver
 from dynamixel_driver_sync import DynamixelDriver
 
 
 rotation_origin_msg = Pose2D()
+
 speed_conversion_const = 0.111
 motor_speed_threashold = 300
 
@@ -15,9 +18,10 @@ def cmdTwistVelCallback(velocity_msg):
     global rotation_origin_msg
     wheel1_vel, wheel2_vel, wheel3_vel = omnidirectional_driver(
         velocity_msg, rotation_origin_msg)
-
-    print(int(wheel1_vel/speed_conversion_const),
-          int(wheel2_vel/speed_conversion_const), int(wheel3_vel/speed_conversion_const))
+    now = datetime.now()
+    print(now, int(wheel1_vel/speed_conversion_const),
+          int(wheel2_vel/speed_conversion_const), int(wheel3_vel/speed_conversion_const),(wheel1_vel/speed_conversion_const),
+          (wheel2_vel/speed_conversion_const), (wheel3_vel/speed_conversion_const))
     if int(wheel1_vel / speed_conversion_const) > motor_speed_threashold:
         wheel1_vel = speed_conversion_const*motor_speed_threashold
         print("wheel1_vel cannot be reached, max speed sent")
@@ -37,10 +41,10 @@ def cmdTwistVelCallback(velocity_msg):
         wheel3_vel = -1*speed_conversion_const*motor_speed_threashold
         print("wheel3_vel cannot be reached, max speed sent")
         
-    else:
-        dxl_driver.set_dxl_speed(1, int(wheel1_vel/speed_conversion_const))
-        dxl_driver.set_dxl_speed(2, int(wheel2_vel/speed_conversion_const))
-        dxl_driver.set_dxl_speed(3, int(wheel3_vel/speed_conversion_const))
+     
+    dxl_driver.set_dxl_speed(1, int(wheel1_vel/speed_conversion_const))
+    dxl_driver.set_dxl_speed(2, int(wheel2_vel/speed_conversion_const))
+    dxl_driver.set_dxl_speed(3, int(wheel3_vel/speed_conversion_const))
 
     if wheel1_vel == 0:
         dxl_driver.set_dxl_torque_enable(1, False)
