@@ -26,7 +26,7 @@ min_pressure_delta = 0
 robot_orientation = 0
 height = 0
 # Frequency, this value is overwritten by the config file
-freq = 20
+freq = 40
 # Height offset to be set in calibrate
 height_offset = 0
 # Dictionary visible markers
@@ -131,8 +131,8 @@ def process_correction(correction):
             if(abs(error) > error_tolerance):
                 # rospy.loginfo("correcting 401_pitch, error ="+str(error))
 
-                # rotation_origin_msg.x = refrences_dict["401_x"]["value"] * 100
-                # rotation_origin_msg.y = refrences_dict["401_z"]["value"] *
+                rotation_origin_msg.x = 0
+                rotation_origin_msg.y = 0
                 # stop()
                 current_vel_angular = ramp(current_vel_angular, target_vel)
                 correction["finished"] = False
@@ -234,7 +234,22 @@ def process_correction(correction):
 
         difference_error = fl - fr
         # Adding delta to target in case of remote control activated (depends on orientation)
-        if (fl < target_plus_delta and fr < target_plus_delta) or (fl > target_plus_delta and fr > target_plus_delta):
+        if abs(difference_error) > correction["difference_pressure_tolerance"]:
+            print("correcting difference")
+
+            target_vel = (difference_error) * k_turn + \
+                (float(difference_error)/abs(difference_error)) * bias_turn
+            current_vel_x = ramp(current_vel_x, 0)
+            # current_vel_x = 0
+            current_vel_angular = ramp(current_vel_angular, target_vel)
+            # if current_vel_angular < 0 :
+            #     rotation_origin_msg.x = -12
+            #     rotation_origin_msg.y = 0
+            # else:
+            #     rotation_origin_msg.x = 12
+            #     rotation_origin_msg.y = 0
+            # current_vel_angular = target_vel
+        elif (fl < target_plus_delta and fr < target_plus_delta) or (fl > target_plus_delta and fr > target_plus_delta):
             # go forward or backward
             print("correcting linear")
             average_error = target_plus_delta - 0.5 * (fl+fr)
@@ -244,14 +259,7 @@ def process_correction(correction):
             # current_vel_x = target_vel
             current_vel_angular = ramp(current_vel_angular, 0)
             # current_vel_angular = 0
-        elif abs(difference_error) > correction["difference_pressure_tolerance"]:
-            print("correcting difference")
-            target_vel = (difference_error) * k_turn + \
-                (float(difference_error)/abs(difference_error)) * bias_turn
-            current_vel_x = ramp(current_vel_x, 0)
-            # current_vel_x = 0
-            current_vel_angular = ramp(current_vel_angular, target_vel)
-            # current_vel_angular = target_vel
+       
         else:
             print("forces are stable .. nothing to correct")
             # stop
