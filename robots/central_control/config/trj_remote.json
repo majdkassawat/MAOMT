@@ -113,7 +113,7 @@
             "correction": {
                 "type": "wait",
                 "id": 1,
-                "target": 10,
+                "target": 3,
                 "finished": false
             }
         },
@@ -135,13 +135,13 @@
                         "left": "fsl",
                         "right": "fsr"
                     },
-                    "total_pressure_tolerance": 30,
-                    "difference_pressure_tolerance": 30,
+                    "total_pressure_tolerance": 40,
+                    "difference_pressure_tolerance": 40,
                     "controller_parameters": {
-                        "k_turn": 0,
-                        "bias_turn": -30,
+                        "k_turn": -0.5,
+                        "bias_turn": -4,
                         "k_linear": 0,
-                        "bias_linear": 10
+                        "bias_linear": 12
                     },
                     "target": 120,
                     "finished": false
@@ -159,11 +159,11 @@
                         "left": "fsl",
                         "right": "fsr"
                     },
-                    "total_pressure_tolerance": 10,
+                    "total_pressure_tolerance": 40,
                     "difference_pressure_tolerance": 10,
                     "controller_parameters": {
-                        "k_turn": 0,
-                        "bias_turn": -30,
+                        "k_turn": -0.5,
+                        "bias_turn": -4,
                         "k_linear": 0,
                         "bias_linear": 10
                     },
@@ -208,8 +208,8 @@
                     "total_pressure_tolerance": 60,
                     "difference_pressure_tolerance": 60,
                     "controller_parameters": {
-                        "k_turn": 0,
-                        "bias_turn": -30,
+                        "k_turn": -0.5,
+                        "bias_turn": -4,
                         "k_linear": 0,
                         "bias_linear": 10
                     },
@@ -264,13 +264,13 @@
                         "left": "fsl",
                         "right": "fsr"
                     },
-                    "total_pressure_tolerance": 60,
-                    "difference_pressure_tolerance": 60,
+                    "total_pressure_tolerance": 50,
+                    "difference_pressure_tolerance": 10,
                     "controller_parameters": {
-                        "k_turn": 0,
-                        "bias_turn": -30,
+                        "k_turn": -0.5,
+                        "bias_turn": -4,
                         "k_linear": 0,
-                        "bias_linear": 10
+                        "bias_linear": 10 
                     },
                     "target": 120,
                     "finished": false
