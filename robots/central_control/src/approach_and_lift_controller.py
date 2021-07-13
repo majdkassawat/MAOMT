@@ -53,6 +53,8 @@ t_right_msg = Float64()
 # position message
 rotation_origin_msg = Pose2D()
 rotation_origin_msg.theta = 60
+# point message
+current_point_msg = Int16()
 # timers list
 time_init_dict = {}
 trajectory_plan = {}
@@ -403,6 +405,8 @@ t_left_vel_pub = rospy.Publisher(
     'traction_wheel_left_vel', Float64, queue_size=10)
 t_right_vel_pub = rospy.Publisher(
     'traction_wheel_right_vel', Float64, queue_size=10)
+current_point_pub = rospy.Publisher(
+    'current point', Int16, queue_size=10)
 sub = rospy.Subscriber('aruco_marker_publisher/markers',
                        MarkerArray, MarkersCallback)
 sub_markers_list = rospy.Subscriber(
@@ -423,11 +427,13 @@ sub_orientation = rospy.Subscriber(
     'orientation', Float64, orientation_Callback)
 
 
+
 def controller():
     global freq, refrences_dict, crnt_trgt_pnt_idx, trajectory_plan, current_vel_x, current_vel_y, current_vel_angular, current_vel_t_left, current_vel_t_right, old_vel_angular, old_vel_t_left, old_vel_t_right, old_vel_x, old_vel_y, refrences_dict_lock
     
     refrences_dict_lock = True
     stop() # This is to zero all velocities before starting calculations
+    current_point_msg.data = crnt_trgt_pnt_idx
     if crnt_trgt_pnt_idx < len(trajectory_plan):
         current_point = trajectory_plan[str(crnt_trgt_pnt_idx)]
         if current_point["reached"] == True:  # point has already been reached
