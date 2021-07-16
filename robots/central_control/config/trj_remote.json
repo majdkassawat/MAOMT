@@ -136,9 +136,9 @@
                         "right": "fsr"
                     },
                     "total_pressure_tolerance": 40,
-                    "difference_pressure_tolerance": 40,
+                    "difference_pressure_tolerance": 60,
                     "controller_parameters": {
-                        "k_turn": -0.5,
+                        "k_turn": -0.4,
                         "bias_turn": -4,
                         "k_linear": 0,
                         "bias_linear": 12
@@ -160,10 +160,10 @@
                         "right": "fsr"
                     },
                     "total_pressure_tolerance": 40,
-                    "difference_pressure_tolerance": 10,
+                    "difference_pressure_tolerance": 40,
                     "controller_parameters": {
                         "k_turn": -0.5,
-                        "bias_turn": -4,
+                        "bias_turn": -4.5,
                         "k_linear": 0,
                         "bias_linear": 10
                     },
@@ -206,10 +206,10 @@
                         "right": "fsr"
                     },
                     "total_pressure_tolerance": 60,
-                    "difference_pressure_tolerance": 60,
+                    "difference_pressure_tolerance": 40,
                     "controller_parameters": {
                         "k_turn": -0.5,
-                        "bias_turn": -4,
+                        "bias_turn": -4.5,
                         "k_linear": 0,
                         "bias_linear": 10
                     },
@@ -265,10 +265,10 @@
                         "right": "fsr"
                     },
                     "total_pressure_tolerance": 50,
-                    "difference_pressure_tolerance": 10,
+                    "difference_pressure_tolerance": 40,
                     "controller_parameters": {
                         "k_turn": -0.5,
-                        "bias_turn": -4,
+                        "bias_turn": -4.5,
                         "k_linear": 0,
                         "bias_linear": 10 
                     },
