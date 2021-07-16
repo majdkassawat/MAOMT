@@ -5,57 +5,10 @@
       "keys": {
         "running-plugins": {
           "type": "repr",
-          "repr": "{u'rqt_plot/Plot': [1], u'rqt_robot_steering/RobotSteering': [1], u'rqt_image_view/ImageView': [1], u'rqt_shell/Shell': [1]}"
+          "repr": "{u'rqt_plot/Plot': [2, 1], u'rqt_image_view/ImageView': [1, 2]}"
         }
       },
       "groups": {
-        "plugin__rqt_plot__Plot__1": {
-          "keys": {},
-          "groups": {
-            "dock_widget__DataPlotWidget": {
-              "keys": {
-                "dockable": {
-                  "type": "repr",
-                  "repr": "True"
-                },
-                "parent": {
-                  "type": "repr",
-                  "repr": "None"
-                },
-                "dock_widget_title": {
-                  "type": "repr",
-                  "repr": "u'MatPlot'"
-                }
-              },
-              "groups": {}
-            },
-            "plugin": {
-              "keys": {
-                "autoscroll": {
-                  "type": "repr",
-                  "repr": "True"
-                },
-                "plot_type": {
-                  "type": "repr",
-                  "repr": "1"
-                },
-                "topics": {
-                  "type": "repr",
-                  "repr": "u''"
-                },
-                "y_limits": {
-                  "type": "repr",
-                  "repr": "[0.0, 1.0]"
-                },
-                "x_limits": {
-                  "type": "repr",
-                  "repr": "[0.0, 1.0]"
-                }
-              },
-              "groups": {}
-            }
-          }
-        },
         "plugin__rqt_py_console__PyConsole__1": {
           "keys": {},
           "groups": {
@@ -63,7 +16,7 @@
               "keys": {
                 "use_spyderlib": {
                   "type": "repr",
-                  "repr": "False"
+                  "repr": "u'false'"
                 }
               },
               "groups": {}
@@ -77,7 +30,7 @@
               "keys": {
                 "dockable": {
                   "type": "repr",
-                  "repr": "True"
+                  "repr": "u'true'"
                 },
                 "parent": {
                   "type": "repr",
@@ -98,29 +51,29 @@
                 },
                 "vx_min": {
                   "type": "repr",
-                  "repr": "-1.0"
+                  "repr": "u'-1'"
                 },
                 "vw_min": {
                   "type": "repr",
-                  "repr": "-3.0"
+                  "repr": "u'-3'"
                 },
                 "vw_max": {
                   "type": "repr",
-                  "repr": "3.0"
+                  "repr": "u'3'"
                 },
                 "vx_max": {
                   "type": "repr",
-                  "repr": "1.0"
+                  "repr": "u'1'"
                 }
               },
               "groups": {}
             }
           }
         },
-        "plugin__rqt_shell__Shell__1": {
+        "plugin__rqt_image_view__ImageView__2": {
           "keys": {},
           "groups": {
-            "dock_widget__ShellWidget": {
+            "dock_widget__ImageViewWidget": {
               "keys": {
                 "dockable": {
                   "type": "repr",
@@ -132,16 +85,52 @@
                 },
                 "dock_widget_title": {
                   "type": "repr",
-                  "repr": "u'SimpleShell'"
+                  "repr": "u'Image View (2)'"
                 }
               },
               "groups": {}
             },
             "plugin": {
               "keys": {
-                "shell_type": {
+                "max_range": {
                   "type": "repr",
-                  "repr": "2"
+                  "repr": "10.0"
+                },
+                "rotate": {
+                  "type": "repr",
+                  "repr": "0"
+                },
+                "smooth_image": {
+                  "type": "repr",
+                  "repr": "False"
+                },
+                "mouse_pub_topic": {
+                  "type": "repr",
+                  "repr": "u'/robot2/aruco_marker_publisher/result_mouse_left'"
+                },
+                "num_gridlines": {
+                  "type": "repr",
+                  "repr": "0"
+                },
+                "toolbar_hidden": {
+                  "type": "repr",
+                  "repr": "False"
+                },
+                "zoom1": {
+                  "type": "repr",
+                  "repr": "False"
+                },
+                "dynamic_range": {
+                  "type": "repr",
+                  "repr": "False"
+                },
+                "topic": {
+                  "type": "repr",
+                  "repr": "u'/robot2/aruco_marker_publisher/result'"
+                },
+                "publish_click_location": {
+                  "type": "repr",
+                  "repr": "False"
                 }
               },
               "groups": {}
@@ -184,7 +173,7 @@
                 },
                 "mouse_pub_topic": {
                   "type": "repr",
-                  "repr": "u''"
+                  "repr": "u'/robot1/aruco_marker_publisher/result_mouse_left'"
                 },
                 "num_gridlines": {
                   "type": "repr",
@@ -204,11 +193,136 @@
                 },
                 "topic": {
                   "type": "repr",
-                  "repr": "u''"
+                  "repr": "u'/robot1/aruco_marker_publisher/result'"
                 },
                 "publish_click_location": {
                   "type": "repr",
                   "repr": "False"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_plot__Plot__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__DataPlotWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'MatPlot'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "autoscroll": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "plot_type": {
+                  "type": "repr",
+                  "repr": "1"
+                },
+                "topics": {
+                  "type": "repr",
+                  "repr": "[u'/robot1/force_sensor_right/data', u'/robot1/force_sensor_left/data']"
+                },
+                "y_limits": {
+                  "type": "repr",
+                  "repr": "[-484.0, 354.0]"
+                },
+                "x_limits": {
+                  "type": "repr",
+                  "repr": "[656.6083490848541, 756.6083490848541]"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_plot__Plot__2": {
+          "keys": {},
+          "groups": {
+            "dock_widget__DataPlotWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'MatPlot (2)'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "autoscroll": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "plot_type": {
+                  "type": "repr",
+                  "repr": "1"
+                },
+                "topics": {
+                  "type": "repr",
+                  "repr": "[u'/robot2/force_sensor_right/data', u'/robot2/force_sensor_left/data']"
+                },
+                "y_limits": {
+                  "type": "repr",
+                  "repr": "[-60.0, 169.0]"
+                },
+                "x_limits": {
+                  "type": "repr",
+                  "repr": "[461.82947397232056, 561.8294739723206]"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_shell__Shell__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ShellWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "u'true'"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'SimpleShell'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "shell_type": {
+                  "type": "repr",
+                  "repr": "u'2'"
                 }
               },
               "groups": {}
@@ -221,13 +335,13 @@
       "keys": {
         "geometry": {
           "type": "repr(QByteArray.hex)",
-          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb0002000000000000000000180000077f0000049700000000000000340000077f0000049700000000000000000780')",
-          "pretty-print": "               4         "
+          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb0002000000000251000000210000075c000003e9000002520000003d0000075b000003e80000000000000000079e')",
+          "pretty-print": "     Q ! \\   R = [       "
         },
         "state": {
           "type": "repr(QByteArray.hex)",
-          "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd00000001000000030000078000000435fc0100000006fb00000050007200710074005f0061006300740069006f006e005f005f0041006300740069006f006e0050006c007500670069006e005f005f0031005f005f006d0065007300730061006700650073002e007500690100000000000002690000000000000000fb0000006a007200710074005f0072006f0062006f0074005f007300740065006500720069006e0067005f005f0052006f0062006f0074005300740065006500720069006e0067005f005f0031005f005f0052006f0062006f0074005300740065006500720069006e006700550069010000000000000175000000f400fffffffb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0031005f005f0049006d0061006700650056006900650077005700690064006700650074010000017b000002730000019b00fffffffc000003f40000023c0000017800fffffffa000000010200000002fb00000030005f005f0044006f0063006b0057006900640067006500740043006f006e007400610069006e00650072005f005f00310100000000ffffffff0000000000000000fb00000042007200710074005f0070006c006f0074005f005f0050006c006f0074005f005f0031005f005f00440061007400610050006c006f00740057006900640067006500740100000019000004350000008c00fffffffb0000003c007200710074005f00700079005f0063006f006e0073006f006c0065005f005f005000790043006f006e0073006f006c0065005f005f0031005f005f0100000419000000d00000000000000000fb00000040007200710074005f007300680065006c006c005f005f005300680065006c006c005f005f0031005f005f005300680065006c006c00570069006400670065007401000006360000014a000000d800ffffff000007800000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
-          "pretty-print": "                 Prqt_action__ActionPlugin__1__messages.ui          jrqt_robot_steering__RobotSteering__1__RobotSteeringUi          Zrqt_image_view__ImageView__1__ImageViewWidget            < x                                                                                 5                                                                                 6 J                                                            "
+          "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd00000001000000030000050a0000037dfc0100000006fb00000050007200710074005f0061006300740069006f006e005f005f0041006300740069006f006e0050006c007500670069006e005f005f0031005f005f006d0065007300730061006700650073002e007500690100000000000002690000000000000000fb0000006a007200710074005f0072006f0062006f0074005f007300740065006500720069006e0067005f005f0052006f0062006f0074005300740065006500720069006e0067005f005f0031005f005f0052006f0062006f0074005300740065006500720069006e00670055006901000000000000014c0000000000000000fc000000000000019b000000dd00fffffffc0200000002fb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0031005f005f0049006d00610067006500560069006500770057006900640067006500740100000019000001940000005100fffffffb0000005a007200710074005f0069006d006100670065005f0076006900650077005f005f0049006d0061006700650056006900650077005f005f0032005f005f0049006d006100670065005600690065007700570069006400670065007401000001b3000001e30000005100fffffffc000001a1000003690000017800fffffffc0200000002fc00000019000001f40000008c00fffffffa000000010200000002fb00000030005f005f0044006f0063006b0057006900640067006500740043006f006e007400610069006e00650072005f005f00310100000000ffffffff0000000000000000fb00000042007200710074005f0070006c006f0074005f005f0050006c006f0074005f005f0031005f005f00440061007400610050006c006f00740057006900640067006500740100000019000004350000008c00fffffffb00000042007200710074005f0070006c006f0074005f005f0050006c006f0074005f005f0032005f005f00440061007400610050006c006f00740057006900640067006500740100000213000001830000008c00fffffffb0000003c007200710074005f00700079005f0063006f006e0073006f006c0065005f005f005000790043006f006e0073006f006c0065005f005f0031005f005f0100000419000000d00000000000000000fb00000040007200710074005f007300680065006c006c005f005f005300680065006c006c005f005f0031005f005f005300680065006c006c00570069006400670065007401000005470000016c00000000000000000000050a0000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "pretty-print": "                 Prqt_action__ActionPlugin__1__messages.ui          jrqt_robot_steering__RobotSteering__1__RobotSteeringUi                                                                         Q                                                       Q                                                                                                     5                                                                                                                             G l                                                            "
         }
       },
       "groups": {
