@@ -66,7 +66,7 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 parent_dir = os.path.abspath(os.path.join(script_dir, os.pardir))
 config_dir = parent_dir + "/config/"
 # print(config_dir)
-with open(config_dir + 'trj_remote.json') as json_file:
+with open(config_dir + 'trj_robot_1.json') as json_file:
     config_file = json.load(json_file)
     trajectory_plan = config_file["trajectory"]
     remote_control_activated = config_file["remote_control_activated"]
