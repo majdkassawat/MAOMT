@@ -90,9 +90,11 @@ def cmdTractionRightVelCallback(msg):
     if traction_wheel_vel == 0:
         dxl_driver.set_dxl_torque_enable(4, False)
 
-dxl_driver = DynamixelDriver("/dev/ttyUSB1")
-dxl_driver.open_port()
+
 rospy.init_node('robot_actuate_node')
+dxl_driver = DynamixelDriver(rospy.get_param('~ControllerPort'))
+dxl_driver.open_port()
+
 
 
 command_twist_vel_sub = rospy.Subscriber('cmd_vel', Twist, cmdTwistVelCallback)

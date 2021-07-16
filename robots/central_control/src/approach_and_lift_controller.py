@@ -21,6 +21,7 @@ import pprint
 
 cancel_signal = False
 stop_signal = False
+stop_and_exit_signal = False
 remote_control_activated = False
 min_pressure_delta = 0
 robot_orientation = 0
@@ -55,6 +56,8 @@ rotation_origin_msg = Pose2D()
 rotation_origin_msg.theta = 60
 # point message
 current_point_msg = Int16()
+# stop and exit message
+stop_and_exit_msg = Bool()
 # timers list
 time_init_dict = {}
 trajectory_plan = {}
@@ -362,14 +365,18 @@ def force_sensor_right_Callback(msg):
 
 def stop_signal_Callback(msg):
     global stop_signal
-    # stop_signal = msg.data
-    stop_signal = False # This is for debugging
+    stop_signal = msg.data
+    #stop_signal = False # This is for debugging
 
 
 def sigint_handler(signum, frame):
     global cancel_signal
     cancel_signal = True
 
+
+def stop_and_exit_signal_Callback(msg):
+    global stop_and_exit_signal
+    stop_and_exit_signal = msg.data
 
 def sync_Callback(msg):
     global refrences_dict
@@ -407,6 +414,7 @@ t_right_vel_pub = rospy.Publisher(
     'traction_wheel_right_vel', Float64, queue_size=10)
 current_point_pub = rospy.Publisher(
     'current_point', Int16, queue_size=10)
+    
 sub = rospy.Subscriber('aruco_marker_publisher/markers',
                        MarkerArray, MarkersCallback)
 sub_markers_list = rospy.Subscriber(
@@ -417,6 +425,8 @@ sub_force_sensor_right = rospy.Subscriber(
     'force_sensor_right', Int16, force_sensor_right_Callback)
 sub_stop_signal = rospy.Subscriber(
     '/stop_signal', Bool, stop_signal_Callback)
+sub_stop_and_exit_signal = rospy.Subscriber(
+    '/stop_and_exit_signal', Bool, stop_and_exit_signal_Callback)
 sub_sync = rospy.Subscriber(
     '/sync', Bool, sync_Callback)
 sub_height_target = rospy.Subscriber(
@@ -426,11 +436,17 @@ sub_min_pressure = rospy.Subscriber(
 sub_orientation = rospy.Subscriber(
     'orientation', Float64, orientation_Callback)
 
-
+def stop_and_exit():
+    stop()
+    cmd_vel_pub.publish(cmd_vel_msg)
+    t_left_vel_pub.publish(t_left_msg)
+    t_right_vel_pub.publish(t_right_msg)
+    exit()
 
 def controller():
     global freq, refrences_dict, crnt_trgt_pnt_idx, trajectory_plan, current_vel_x, current_vel_y, current_vel_angular, current_vel_t_left, current_vel_t_right, old_vel_angular, old_vel_t_left, old_vel_t_right, old_vel_x, old_vel_y, refrences_dict_lock
-    
+    if(stop_and_exit_signal):
+        stop_and_exit()
     refrences_dict_lock = True
     stop() # This is to zero all velocities before starting calculations
     current_point_msg.data = crnt_trgt_pnt_idx
@@ -477,7 +493,7 @@ def controller():
                 # rospy.loginfo("processing point: " + str(crnt_trgt_pnt_idx) + ", reference NOT found")
                 stop()
     else:  # reached the end of the trajectory
-        stop()
+        stop_and_exit()
 
     refrences_dict_lock = False
     # print("before updating speeds")
@@ -516,10 +532,7 @@ def controller():
         sleep_time = 1/float(freq)
         threading.Timer(sleep_time, controller).start()
     else:
-        stop()
-        cmd_vel_pub.publish(cmd_vel_msg)
-        t_left_vel_pub.publish(t_left_msg)
-        t_right_vel_pub.publish(t_right_msg)
+        stop_and_exit()
 
 controller()
 r = rospy.Rate(freq)
