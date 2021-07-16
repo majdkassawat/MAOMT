@@ -2,6 +2,7 @@
   <!-- <node name="check_ueye_api" pkg="ueye_cam" type="check_ueye_api" required="true" /> -->
   <arg name="nodelet_manager_name" value="nodelet_manager" />
   <arg name="camera_name" value="usb_cam" />
+  <arg name="cameraID" />
 
   <node pkg="nodelet" type="nodelet" name="$(arg nodelet_manager_name)" args="manager" output="screen" />
   
@@ -9,7 +10,7 @@
         args="load ueye_cam/ueye_cam_nodelet $(arg nodelet_manager_name)">
     <param name="camera_name" type="str" value="$(arg camera_name)" /> <!-- == namespace for topics and services -->
     <param name="camera_topic" type="str" value="image_raw" />
-    <param name="camera_id" type="int" value="1" /> <!-- 0 = any camera; 1+: camera ID -->
+    <param name="camera_id" type="int" value="$(arg cameraID)" /> <!-- 0 = any camera; 1+: camera ID -->
     <param name="camera_intrinsics_file" type="string" value="/home/majd/catkin_ws/src/maomt/robots/robot/config/usb_cam.yaml" /> <!-- default: ~/.ros/camera_info/<camera_name>.yaml -->
     <param name="camera_parameters_file" type="string" value="/home/majd/catkin_ws/src/maomt/robots/robot/config/camera.ini" /> <!-- default: ~/.ros/camera_conf/<camera_name>.ini -->
 

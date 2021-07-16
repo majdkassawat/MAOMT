@@ -1,7 +1,11 @@
 <!-- -*- mode: XML -*- -->
 
 <launch>
-        <node name="robot_actuate" pkg="robot" type="robot_actuate.py" output="screen" />
+        <arg name="ControllerPort" />
+
+        <node name="robot_actuate" pkg="robot" type="robot_actuate.py" output="screen">
+                <param name="ControllerPort" value="$(arg ControllerPort)"/>
+        </node>
 </launch>
 
    

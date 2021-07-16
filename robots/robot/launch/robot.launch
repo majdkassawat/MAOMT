@@ -1,9 +1,26 @@
 <launch>
-	
+
 	<group ns="robot1">
-		<include file="$(find robot)/launch/vision_system.launch" />
-		<include file="$(find robot)/launch/force_sensors.launch" />
-		<include file="$(find robot)/launch/actuate_system.launch" />
+		<include file="$(find robot)/launch/vision_system.launch">
+			<arg name="cameraID" value="1" />
+		</include>
+		<include file="$(find robot)/launch/force_sensors.launch">
+			<arg name="ControllerPort" value="/dev/ttyACM0" />
+		</include>
+		<include file="$(find robot)/launch/actuate_system.launch">
+			<arg name="ControllerPort" value="/dev/ttyUSB1" />
+		</include>
+	</group>
+	<group ns="robot2">
+		<include file="$(find robot)/launch/vision_system.launch">
+			<arg name="cameraID" value="2" />
+		</include>
+		<include file="$(find robot)/launch/force_sensors.launch">
+			<arg name="ControllerPort" value="/dev/ttyUSB3" />
+		</include>
+		<include file="$(find robot)/launch/actuate_system.launch">
+			<arg name="ControllerPort" value="/dev/ttyUSB2" />
+		</include>
 	</group>
 
 </launch>
